@@ -18,7 +18,7 @@ const Navbar = () => {
                 <div className="nav-left" style={{ width: "30%" }}>
                     <ul style={{ display: "flex", justifyContent: "space-between", width: "100%", fontSize: "20px" }}>
                         <li style={{ listStyle: "none" }}>
-                            <Link to="/dashboard" style={{ textDecoration: "none", color: "#ffffff" }}>
+                            <Link to="/" style={{ textDecoration: "none", color: "#ffffff" }}>
                                 Dashboard
                             </Link>
                         </li>
@@ -78,6 +78,8 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
+
+
         </>
     )
 }
