@@ -13,8 +13,9 @@ import CreateEmployees from './components/employees/createEmployees';
 import Signin from './components/Signin';
 
 function App() {
+  const baseUrl = "http://localhost:9020";
   // const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"))
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
   // const token = localStorage.getItem("jwt");
   // if (!token) {
   //   setIsLoggedIn(false)
@@ -29,10 +30,10 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/signin' element={<Signin />} />
-          <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>} />
+          <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl}/>} />
+          <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path='/projects' element={<ProjectsPage />}>
-            <Route path='myprojects' element={<Projects />} />
+            <Route path='myprojects' element={<Projects baseUrl={baseUrl}/>} />
             {/* <Route path='project/:id' element={<Projects />} /> */}
             <Route path='new' element={<CreateProject />} />
           </Route>

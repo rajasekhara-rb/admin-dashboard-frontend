@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, CardBody, CardSubtitle, CardText, CardTitle } from "reactstrap";
 
-const Projects = () => {
+const Projects = ({baseUrl}) => {
 
     const [projectsArr, setProjectsArr] = useState([]);
     // console.log(projectsArr)
@@ -11,7 +11,7 @@ const Projects = () => {
     useEffect(() => {
         const getData = async () => {
             try {
-                await axios.get("http://localhost:9020/projects/", {
+                await axios.get(`${baseUrl}/projects/`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
