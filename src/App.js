@@ -12,10 +12,13 @@ import Employees from './components/employees/Employees';
 import CreateEmployees from './components/employees/createEmployees';
 import Signin from './components/Signin';
 
+// import { Toast, ToastBody, ToastHeader } from "reactstrap";
+
 function App() {
   const baseUrl = "http://localhost:9020";
   // const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
+  const [userdetails, setUserDetails] = useState({})
   // const token = localStorage.getItem("jwt");
   // if (!token) {
   //   setIsLoggedIn(false)
@@ -27,13 +30,24 @@ function App() {
 
   return (
     <>
+
       <Router>
-        <Navbar />
+        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} userdetails={userdetails} />
+        {/* <div className="p-3 bg-success my-2 rounded">
+          <Toast>
+            <ToastHeader>
+              Success
+            </ToastHeader>
+            <ToastBody>
+              This is a toast on a success background — check it out!
+            </ToastBody>
+          </Toast>
+        </div> */}
         <Routes>
-          <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl}/>} />
+          <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl} userdetails={userdetails} setUserDetails={setUserDetails} />} />
           <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path='/projects' element={<ProjectsPage />}>
-            <Route path='myprojects' element={<Projects baseUrl={baseUrl}/>} />
+            <Route path='myprojects' element={<Projects baseUrl={baseUrl} />} />
             {/* <Route path='project/:id' element={<Projects />} /> */}
             <Route path='new' element={<CreateProject />} />
           </Route>

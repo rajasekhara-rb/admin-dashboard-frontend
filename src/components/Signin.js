@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Button, Form, FormGroup, Input, Label} from "reactstrap";
 
-const Signin = ({ isLoggedIn, setIsLoggedIn, baseUrl }) => {
+const Signin = ({ isLoggedIn, setIsLoggedIn, baseUrl, userdetails, setUserDetails }) => {
 
     const [userData, setUserData] = useState({});
     const navigate = useNavigate()
@@ -19,59 +19,89 @@ const Signin = ({ isLoggedIn, setIsLoggedIn, baseUrl }) => {
             email: userData.email,
             password: userData.password
         }
-
-        await axios.post(`${baseUrl}/admin/signin`, user)
-            .then((loggedin) => {
-                console.log(loggedin)
-                alert("logged in successful")
-                localStorage.setItem("jwt", loggedin.data.token);
-                setIsLoggedIn(true);
-                navigate("/");
-            }).catch((error) => {
-                console.log(error)
-                alert(error)
+        if (!userData.email && !userData.password) {
+            alert("Fields cannot be blank")
+        } else {
+            await axios.post(`${baseUrl}/admin/signin`, user, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("jwt")
+                }
             })
+                .then((loggedin) => {
+                    console.log(loggedin.data)
+                    if (loggedin.data.token) {
+                        alert(loggedin.data.message)
+
+
+                        localStorage.setItem("jwt", loggedin.data.token)
+                        setIsLoggedIn(true);
+                        localStorage.setItem("user", loggedin.data.user)
+                        setUserDetails(loggedin.data.user)
+                        navigate("/");
+                    } else {
+                        setIsLoggedIn(false);
+                        alert(loggedin.data.message)
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                    alert(error)
+                })
+        }
     }
 
     return (
         <>
-            <Form>
-                <FormGroup>
-                    <Label
-                        for="exampleEmail"
-                        hidden
-                    >
-                        Email
-                    </Label>
-                    <Input
-                        id="exampleEmail"
-                        name="email"
-                        placeholder="Email"
-                        type="email"
-                        onChange={handleChange}
-                    />
-                </FormGroup>
-                {' '}
-                <FormGroup>
-                    <Label
-                        for="examplePassword"
-                        hidden
-                    >
-                        Password
-                    </Label>
-                    <Input
-                        id="examplePassword"
-                        name="password"
-                        placeholder="Password"
-                        type="password"
-                        onChange={handleChange}
-                    />
-                </FormGroup>
-                {' '}
-                <Button onClick={handleSubmit}>
-                    Submit
-                </Button>
-            </Form>
+            <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
+                <Form style={{ marginTop: "50px", width: "40%", border: "1px solid #f0f0f0", padding: "20px", borderRadius: "10px" }}>
+                    <FormGroup>
+                        <h2 style={{ textAlign: "center" }}>Sign in</h2>
+                        <hr style={{ border: "1px solid blue" }}></hr>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label
+                            for="exampleEmail"
+                            hidden
+                        >
+                            Email
+                        </Label>
+                        <Input
+                            id="exampleEmail"
+                            name="email"
+                            placeholder="Email"
+                            type="email"
+                            onChange={handleChange}
+                        />
+                    </FormGroup>
+                    {' '}
+                    <FormGroup>
+                        <Label
+                            for="examplePassword"
+                            hidden
+                        >
+                            Password
+                        </Label>
+                        <Input
+                            id="examplePassword"
+                            name="password"
+                            placeholder="Password"
+                            type="password"
+                            onChange={handleChange}
+                        />
+                    </FormGroup>
+                    {' '}
+                    <FormGroup style={{ display: "flex", justifyContent: "space-between" }}>
+                        <Button color="primary" onClick={handleSubmit} style={{ width: "30%" }}>
+                            Sign in
+                        </Button>
+                        {" "}
+                        <Button color="link" onClick={() => { navigate("/signup") }} style={{ width: "50%" }}>
+                            New User? Sign Up here
+                        </Button>
+                    </FormGroup>
+                </Form>
+
+            </div>
+            
         </>
     )
 }
