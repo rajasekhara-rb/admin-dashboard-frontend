@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, FormGroup, Input, Label} from "reactstrap";
+import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 const Signin = ({ isLoggedIn, setIsLoggedIn, baseUrl, userdetails, setUserDetails }) => {
 
@@ -35,7 +35,7 @@ const Signin = ({ isLoggedIn, setIsLoggedIn, baseUrl, userdetails, setUserDetail
 
                         localStorage.setItem("jwt", loggedin.data.token)
                         setIsLoggedIn(true);
-                        localStorage.setItem("user", loggedin.data.user)
+                        localStorage.setItem("user", JSON.stringify(loggedin.data.user))
                         setUserDetails(loggedin.data.user)
                         navigate("/");
                     } else {
@@ -54,7 +54,7 @@ const Signin = ({ isLoggedIn, setIsLoggedIn, baseUrl, userdetails, setUserDetail
             <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
                 <Form style={{ marginTop: "50px", width: "40%", border: "1px solid #f0f0f0", padding: "20px", borderRadius: "10px" }}>
                     <FormGroup>
-                        <h2 style={{ textAlign: "center" }}>Sign in</h2>
+                        <h2 style={{ textAlign: "center" }}>Admin Sign in</h2>
                         <hr style={{ border: "1px solid blue" }}></hr>
                     </FormGroup>
                     <FormGroup>
@@ -95,13 +95,13 @@ const Signin = ({ isLoggedIn, setIsLoggedIn, baseUrl, userdetails, setUserDetail
                         </Button>
                         {" "}
                         <Button color="link" onClick={() => { navigate("/signup") }} style={{ width: "50%" }}>
-                            New User? Sign Up here
+                            Don't have an account? SignUp
                         </Button>
                     </FormGroup>
                 </Form>
 
             </div>
-            
+
         </>
     )
 }

@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ isLoggedIn, setIsLoggedIn, userdetails }) => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn, userdetails, setUserDetails }) => {
+    // setUserDetails(localStorage.getItem("user"));
     const navigate = useNavigate()
     const handleLogout = () => {
         localStorage.clear("jwt");
@@ -56,10 +57,11 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, userdetails }) => {
                     )
                 }
 
-                {isLoggedIn ? (
-                    <div className="nav-right"
-                        style={{ display: "flex", padding: "0", margin: "0" }}>
-                        {/* <div style={{
+                {isLoggedIn ?
+                    (
+                        <div className="nav-right"
+                            style={{ display: "flex", padding: "0", margin: "0" }}>
+                            {/* <div style={{
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -78,58 +80,54 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, userdetails }) => {
                                     // width: "100%"
                                 }}></i>
                         </div> */}
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            margin: "0",
-                            padding: "0"
-                        }}>
-                            <div style={{ display: "flex", flexDirection: "column", fontSize: "15px", margin: "0 10px" }}>
-                                <h4 style={{ padding: "0", margin: "0" }}>Hi. </h4>
-                                <p style={{ padding: "0", margin: "0" }}>@</p>
-                            </div>
-                            <img
-                                src="https://www.w3schools.com/howto/img_avatar.png"
-                                alt="avatar"
-                                style={{
-                                    width: "50px",
-                                    height: "50px",
-                                    borderRadius: "50%",
-                                    margin: "0 10px"
-                                }}
-                            ></img>
-                        </div>
-                        <div>
-                            <i class="uil uil-signout" style={{
-                                fontSize: "40px",
+                            <div style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                margin: "0",
                                 padding: "0"
-                                // height: "100%",
-                                // width: "100%"
-                            }} onClick={handleLogout}></i>
+                            }}>
+                                <div style={{ display: "flex", flexDirection: "column", fontSize: "15px", margin: "0 10px" }}>
+                                    <h4 style={{ padding: "0", margin: "0" }}>Hi. {userdetails.name} </h4>
+                                    <p style={{ padding: "0", margin: "0" }}>{userdetails.email}</p>
+                                </div>
+                                <img
+                                    src="https://www.w3schools.com/howto/img_avatar.png"
+                                    alt="avatar"
+                                    style={{
+                                        width: "50px",
+                                        height: "50px",
+                                        borderRadius: "50%",
+                                        margin: "0 10px"
+                                    }}
+                                ></img>
+                            </div>
+                            <div>
+                                <i class="uil uil-signout" style={{
+                                    fontSize: "40px",
+                                    padding: "0"
+                                    // height: "100%",
+                                    // width: "100%"
+                                }} onClick={handleLogout}></i>
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div style={{ display: "flex", padding: "0", margin: "0", width: "20%" }}>
-                        <ul style={{ display: "flex", justifyContent: "space-between", width: "100%", fontSize: "20px" }}>
-                            <li style={{ listStyle: "none" }}>
-                                <Link to="/signup" style={{ textDecoration: "none", color: "#ffffff" }}>
-                                    Signup
-                                </Link>
-                            </li>
-                            <li style={{ listStyle: "none" }}>
-                                <Link to="/signin" style={{ textDecoration: "none", color: "#ffffff" }}>
-                                    Signin
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                )}
-
-
-
+                    ) : (
+                        <div style={{ display: "flex", padding: "0", margin: "0", width: "20%" }}>
+                            <ul style={{ display: "flex", justifyContent: "space-between", width: "100%", fontSize: "20px" }}>
+                                <li style={{ listStyle: "none" }}>
+                                    <Link to="/signup" style={{ textDecoration: "none", color: "#ffffff" }}>
+                                        Signup
+                                    </Link>
+                                </li>
+                                <li style={{ listStyle: "none" }}>
+                                    <Link to="/signin" style={{ textDecoration: "none", color: "#ffffff" }}>
+                                        Signin
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    )
+                }
             </nav>
-
-
         </>
     )
 }

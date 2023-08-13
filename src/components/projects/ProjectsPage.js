@@ -5,10 +5,11 @@ import { Outlet } from "react-router-dom";
 
 const ProjectsPage = () => {
     return (
-        <>
-            <ProjectSidebar />
-
-            <Outlet />
+        < >
+            <div style={{ display: "flex", height: "100%", width: "100%" }}>
+                <ProjectSidebar />
+                <Outlet/>
+            </div>
         </>
     )
 }

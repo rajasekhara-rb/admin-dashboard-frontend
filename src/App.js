@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Projects from './components/projects/projects';
 import Dashboard from './components/dashboard/Dashboard';
 import Navbar from './components/navbar/navbar';
@@ -11,6 +11,8 @@ import EmployeesPage from './components/employees/EmployeesPage';
 import Employees from './components/employees/Employees';
 import CreateEmployees from './components/employees/createEmployees';
 import Signin from './components/Signin';
+import Signup from './components/Signup';
+import ProjectById from './components/projects/projectById';
 
 // import { Toast, ToastBody, ToastHeader } from "reactstrap";
 
@@ -18,7 +20,12 @@ function App() {
   const baseUrl = "http://localhost:9020";
   // const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
-  const [userdetails, setUserDetails] = useState({})
+  const userlocal = JSON.parse(localStorage.getItem("user"));
+  const [userdetails, setUserDetails] = useState(userlocal);
+  // console.log(userlocal)
+  // useEffect(() => {
+  //   setUserDetails(userlocal);
+  // }, [userlocal])
   // const token = localStorage.getItem("jwt");
   // if (!token) {
   //   setIsLoggedIn(false)
@@ -30,9 +37,13 @@ function App() {
 
   return (
     <>
-
       <Router>
-        <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} userdetails={userdetails} />
+        <Navbar
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          setUserDetails={setUserDetails}
+          userdetails={userdetails}
+        />
         {/* <div className="p-3 bg-success my-2 rounded">
           <Toast>
             <ToastHeader>
@@ -44,11 +55,12 @@ function App() {
           </Toast>
         </div> */}
         <Routes>
+          <Route path='/signup' element={<Signup />} />
           <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl} userdetails={userdetails} setUserDetails={setUserDetails} />} />
           <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path='/projects' element={<ProjectsPage />}>
             <Route path='myprojects' element={<Projects baseUrl={baseUrl} />} />
-            {/* <Route path='project/:id' element={<Projects />} /> */}
+            <Route path='project/:id' element={<ProjectById baseUrl={baseUrl}/>} />
             <Route path='new' element={<CreateProject />} />
           </Route>
           <Route path='/employees' element={<EmployeesPage />}>
