@@ -8,7 +8,7 @@ const ProjectsPage = () => {
         < >
             <div style={{ display: "flex", height: "100%", width: "100%" }}>
                 <ProjectSidebar />
-                <Outlet/>
+                <Outlet />
             </div>
         </>
     )

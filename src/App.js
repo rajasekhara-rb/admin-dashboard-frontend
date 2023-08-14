@@ -60,8 +60,8 @@ function App() {
           <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path='/projects' element={<ProjectsPage />}>
             <Route path='myprojects' element={<Projects baseUrl={baseUrl} />} />
-            <Route path='project/:id' element={<ProjectById baseUrl={baseUrl}/>} />
-            <Route path='new' element={<CreateProject />} />
+            <Route path='project/:id' element={<ProjectById baseUrl={baseUrl} />} />
+            <Route path='new' element={<CreateProject baseUrl={baseUrl}/>} />
           </Route>
           <Route path='/employees' element={<EmployeesPage />}>
             <Route path='employees' element={<Employees />} />

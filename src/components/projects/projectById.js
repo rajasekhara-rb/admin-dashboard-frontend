@@ -32,7 +32,7 @@ const ProjectById = ({ baseUrl }) => {
             }
         }
         getProjectById()
-    }, []
+    }, [baseUrl, id]
 
     )
     // useEffect(() => {

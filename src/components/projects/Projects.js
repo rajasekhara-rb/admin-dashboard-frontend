@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle } from "reactstrap";
+import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle } from "reactstrap";
 
 const Projects = ({ baseUrl }) => {
 
     const [projectsArr, setProjectsArr] = useState([]);
+    const [projectId, setProjectId] = useState()
     // console.log(projectsArr)
     const token = localStorage.getItem("jwt");
 
@@ -16,23 +17,34 @@ const Projects = ({ baseUrl }) => {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
+                }).then((resp) => {
+                    setProjectsArr(resp.data)
                 })
-                    .then((resp) => {
-                        setProjectsArr(resp.data)
-                    })
             } catch (error) {
                 console.log(error)
             }
         }
-
         getData()
-    }, [token])
+    }, [token, baseUrl])
+
+
+    const deleteProject = async (project_id) => {
+        setProjectId(project_id)
+        try {
+            await axios.delete(`${baseUrl}/projects/${project_id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then((isdeleted) => {
+                alert(isdeleted.message)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     // useEffect(() => {
     // },[])
-
-
-
     return (
         <>
             <div style={{
@@ -82,8 +94,12 @@ const Projects = ({ baseUrl }) => {
                                         <i class="uil uil-edit"></i>
                                     </Button>
                                 </Link>
-                                <Button color="danger">
-                                    <i class="uil uil-trash-alt"></i>
+                                <Button color="danger" >
+                                    {projectId === project._id ? ("l") : (
+                                        <i class="uil uil-trash-alt"
+                                            onClick={() => { deleteProject(project._id) }}
+                                        ></i>
+                                    )}
                                 </Button>
                             </CardFooter>
                         </Card>

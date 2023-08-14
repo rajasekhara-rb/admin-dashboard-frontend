@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
-import { Button, ListGroup, ListGroupItem } from "reactstrap";
+import { ListGroup, ListGroupItem } from "reactstrap";
 
 const ProjectSidebar = () => {
     return (
@@ -45,11 +45,6 @@ const ProjectSidebar = () => {
 
                 </ListGroup>
             </div>
-
-
-
-
-
         </>
     )
 }
