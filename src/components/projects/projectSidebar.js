@@ -6,7 +6,7 @@ import { ListGroup, ListGroupItem } from "reactstrap";
 const ProjectSidebar = () => {
     return (
         <>
-            <div style={{ display: "flex", flexDirection: "column", width: "15vw", minWidth:"15vw", height: "100vh", background: "#f0f0f0" }}>
+            <div style={{ display: "flex", flexDirection: "column", width: "15vw", minWidth: "15vw", height: "85vh", background: "#f0f0f0" }}>
                 {/* <ul>
                     <li >
                         <Link to="/projects/myprojects">

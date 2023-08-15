@@ -20,7 +20,8 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, userdetails, setUserDetails }) => {
                     // background: "#fff",
                     width: "100vw",
                     padding: "15px",
-                    background: "#Afb5b7"
+                    background: "#Afb5b7",
+                    height: "15vh"
                 }}>
                 {
                     isLoggedIn ? (

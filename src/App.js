@@ -36,7 +36,7 @@ function App() {
   // }
 
   return (
-    <>
+    < >
       <Router>
         <Navbar
           isLoggedIn={isLoggedIn}
@@ -54,20 +54,23 @@ function App() {
             </ToastBody>
           </Toast>
         </div> */}
-        <Routes>
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl} userdetails={userdetails} setUserDetails={setUserDetails} />} />
-          <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path='/projects' element={<ProjectsPage />}>
-            <Route path='myprojects' element={<Projects baseUrl={baseUrl} />} />
-            <Route path='project/:id' element={<ProjectById baseUrl={baseUrl} />} />
-            <Route path='new' element={<CreateProject baseUrl={baseUrl}/>} />
-          </Route>
-          <Route path='/employees' element={<EmployeesPage />}>
-            <Route path='employees' element={<Employees />} />
-            <Route path='new' element={<CreateEmployees />} />
-          </Route>
-        </Routes>
+        <div style={{ width: "100vw", height: "85vh" }}>
+          <Routes>
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl} userdetails={userdetails} setUserDetails={setUserDetails} />} />
+            <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+            <Route path='/projects' element={<ProjectsPage />}>
+              <Route path='myprojects' element={<Projects baseUrl={baseUrl} />} />
+              <Route path='project/:id' element={<ProjectById baseUrl={baseUrl} />} />
+              <Route path='new' element={<CreateProject baseUrl={baseUrl} />} />
+            </Route>
+            <Route path='/employees' element={<EmployeesPage />}>
+              <Route path='employees' element={<Employees />} />
+              <Route path='new' element={<CreateEmployees />} />
+            </Route>
+          </Routes>
+
+        </div>
       </Router>
     </>
   );
