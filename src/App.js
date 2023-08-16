@@ -38,12 +38,14 @@ function App() {
   return (
     < >
       <Router>
-        <Navbar
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          setUserDetails={setUserDetails}
-          userdetails={userdetails}
-        />
+        <div style={{ width: "100vw" }}>
+          <Navbar
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            setUserDetails={setUserDetails}
+            userdetails={userdetails}
+          />
+        </div>
         {/* <div className="p-3 bg-success my-2 rounded">
           <Toast>
             <ToastHeader>
@@ -65,11 +67,10 @@ function App() {
               <Route path='new' element={<CreateProject baseUrl={baseUrl} />} />
             </Route>
             <Route path='/employees' element={<EmployeesPage />}>
-              <Route path='employees' element={<Employees />} />
-              <Route path='new' element={<CreateEmployees />} />
+              <Route path='employees' element={<Employees baseUrl={baseUrl} />} />
+              <Route path='new' element={<CreateEmployees baseUrl={baseUrl} />} />
             </Route>
           </Routes>
-
         </div>
       </Router>
     </>

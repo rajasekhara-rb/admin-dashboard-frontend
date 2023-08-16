@@ -42,7 +42,6 @@ const ProjectSidebar = () => {
                             Create Projects
                         </ListGroupItem>
                     </Link>
-
                 </ListGroup>
             </div>
         </>

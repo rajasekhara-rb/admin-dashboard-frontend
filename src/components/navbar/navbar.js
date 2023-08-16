@@ -18,7 +18,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, userdetails, setUserDetails }) => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     // background: "#fff",
-                    width: "100vw",
+                    width: "100%",
                     padding: "15px",
                     background: "#Afb5b7",
                     height: "15vh"

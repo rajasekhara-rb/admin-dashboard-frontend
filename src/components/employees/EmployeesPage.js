@@ -5,8 +5,17 @@ import { Outlet } from "react-router-dom";
 const EmployeesPage = () => {
     return (
         <>
-            <EmployeesSidebar />
-            <Outlet />
+            <div
+                style={{ display: "flex", height: "100%", width: "100%" }}
+            >
+                <div style={{ position: "abolute" }}>
+                    <EmployeesSidebar />
+                </div>
+                <div style={{ position: "relative", overflowY: "scroll", width: "85vw" }}>
+                    <Outlet />
+                </div>
+            </div>
+
         </>
     )
 }
