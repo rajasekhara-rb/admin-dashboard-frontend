@@ -23,6 +23,23 @@ const Signup = () => {
                         <h2 style={{ textAlign: "center" }}>Admin Sign Up</h2>
                         <hr style={{ border: "1px solid blue" }}></hr>
                     </FormGroup>
+                    {' '}
+                    <FormGroup>
+                        <Label
+                            for="exampleEmail"
+                            hidden
+                        >
+                            Name
+                        </Label>
+                        <Input
+                            id="exampleEmail"
+                            name="name"
+                            placeholder="Name"
+                            type="text"
+                            onChange={handleChange}
+                        />
+                    </FormGroup>
+                    {' '}
                     <FormGroup>
                         <Label
                             for="exampleEmail"

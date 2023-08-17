@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Card, CardBody, CardHeader, CardSubtitle, CardText, CardTitle } from "reactstrap";
+import { Link } from "react-router-dom";
+import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Spinner } from "reactstrap";
 
 const Employees = ({ baseUrl }) => {
 
@@ -27,7 +28,7 @@ const Employees = ({ baseUrl }) => {
     }, [])
     return (
         <>
-            <Card className="my-2">
+            <Card className="my-2" style={{ width: "100%" }}>
                 <CardHeader>
                     <CardTitle tag="h5">
                         Employees
@@ -47,9 +48,9 @@ const Employees = ({ baseUrl }) => {
 
 
                                     <Card
-                                        style={{
-                                            width: '18rem'
-                                        }}
+                                    // style={{
+                                    //     // width: '18rem'
+                                    // }}
                                     >
                                         <img
                                             alt="Sample"
@@ -68,10 +69,35 @@ const Employees = ({ baseUrl }) => {
                                             <CardText>
                                                 {employee.employeePhoneNo}
                                             </CardText>
-                                            <Button color="danger">
-                                                Assign Other Project
-                                            </Button>
+
+
                                         </CardBody>
+                                        <CardFooter style={{ display: "flex", justifyContent: "space-between" }}>
+                                            <Link to={`/employees/view/${employee._id}`}>
+                                                <Button color="primary">
+                                                    <i class="uil uil-eye"></i>
+                                                </Button>
+                                            </Link>
+                                            <Link to={`/employees/edit/${employee._id}`}>
+                                                <Button color="warning">
+                                                    <i class="uil uil-edit"></i>
+                                                </Button>
+                                            </Link>
+                                            <Button color="danger" >
+                                                {/* {projectId === project._id && isdeleted ? (
+                                                    <Spinner color="light" size="sm">
+                                                        Loading...
+                                                    </Spinner>
+                                                ) : ( */}
+                                                <i class="uil uil-trash-alt"
+                                                // onClick={() => { deleteProject(project._id) }}
+                                                ></i>
+                                                {/* )} */}
+                                            </Button>
+                                            {/* <Button color="danger">
+                                                Assign Other Project
+                                            </Button> */}
+                                        </CardFooter>
                                     </Card>
                                 )
                             })
@@ -80,7 +106,7 @@ const Employees = ({ baseUrl }) => {
 
 
                 </CardBody>
-            </Card>
+            </Card >
         </>
     )
 }

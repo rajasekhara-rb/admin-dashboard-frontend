@@ -13,6 +13,9 @@ import CreateEmployees from './components/employees/createEmployees';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
 import ProjectById from './components/projects/projectById';
+import EmployeeById from './components/employees/EmployeeById';
+import EditEmployee from './components/employees/EditEmployee';
+import EditProject from './components/projects/EditProject';
 
 // import { Toast, ToastBody, ToastHeader } from "reactstrap";
 
@@ -63,11 +66,14 @@ function App() {
             <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
             <Route path='/projects' element={<ProjectsPage />}>
               <Route path='myprojects' element={<Projects baseUrl={baseUrl} />} />
-              <Route path='project/:id' element={<ProjectById baseUrl={baseUrl} />} />
+              <Route path='view/:id' element={<ProjectById baseUrl={baseUrl} />} />
+              <Route path='edit/:id' element={<EditProject baseUrl={baseUrl} />} />
               <Route path='new' element={<CreateProject baseUrl={baseUrl} />} />
             </Route>
             <Route path='/employees' element={<EmployeesPage />}>
               <Route path='employees' element={<Employees baseUrl={baseUrl} />} />
+              <Route path='view/:id' element={<EmployeeById baseUrl={baseUrl} />} />
+              <Route path='edit/:id' element={<EditEmployee baseUrl={baseUrl} />} />
               <Route path='new' element={<CreateEmployees baseUrl={baseUrl} />} />
             </Route>
           </Routes>

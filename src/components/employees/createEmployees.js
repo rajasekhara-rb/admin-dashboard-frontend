@@ -20,7 +20,7 @@ const CreateEmployees = ({ baseUrl }) => {
         const newEmployee = {
             name: employee.name,
             email: employee.email,
-            phoneNO: employee.phone,
+            phone: employee.phone,
         }
         try {
             await axios.post(`${baseUrl}/employees`, newEmployee, {
@@ -41,7 +41,7 @@ const CreateEmployees = ({ baseUrl }) => {
 
     return (
         <>
-            <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
+            <div style={{ width: "100%", height: "100%", display: "flex", flexWrap:"wrap", justifyContent: "center", alignItems: "flex-start" }}>
                 <Form style={{ marginTop: "50px", width: "95%", border: "1px solid #f0f0f0", padding: "20px", borderRadius: "10px" }}>
                     <FormGroup>
                         <h2 style={{ textAlign: "center" }}>Create Employee</h2>

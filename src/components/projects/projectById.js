@@ -145,7 +145,7 @@ const ProjectById = ({ baseUrl }) => {
                                 {/* )} */}
                             </Button>
                             {' '}
-                            <Link to="/projects/project/:id">
+                            <Link to="/projects/edit/:id">
                                 <Button color="warning">
                                     <i class="uil uil-edit"></i>
                                 </Button>

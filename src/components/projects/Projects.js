@@ -122,12 +122,12 @@ const Projects = ({ baseUrl }) => {
                                     </CardText>
                                 </CardBody>
                                 <CardFooter style={{ display: "flex", justifyContent: "space-between" }}>
-                                    <Link to={`/projects/project/${project._id}`}>
+                                    <Link to={`/projects/view/${project._id}`}>
                                         <Button color="primary">
                                             <i class="uil uil-eye"></i>
                                         </Button>
                                     </Link>
-                                    <Link to="/projects/project/:id">
+                                    <Link to="/projects/edit/:id">
                                         <Button color="warning">
                                             <i class="uil uil-edit"></i>
                                         </Button>
