@@ -52,7 +52,7 @@ const CreateProject = ({ baseUrl }) => {
                     Authorization: `Bearer ${token}`
                 }
             }).then((data) => {
-                navigate(`/projects/project/${data.data.project._id}`)
+                navigate(`/projects/view/${data.data.project._id}`)
                 alert("Project created")
             })
         } catch (error) {

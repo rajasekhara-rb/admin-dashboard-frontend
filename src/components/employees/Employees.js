@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Spinner } from "reactstrap";
 
 const Employees = ({ baseUrl }) => {
-
+    const navigate = useNavigate()
     const [employees, setEmployees] = useState([]);
     const token = localStorage.getItem("jwt")
 
@@ -26,6 +26,24 @@ const Employees = ({ baseUrl }) => {
     useEffect(() => {
         getEmployeesData()
     }, [])
+
+
+    const deleteEmployee = async (id) => {
+        try {
+            axios.delete(`${baseUrl}/employees/${id}`, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("jwt")
+                }
+            }).then((del) => {
+                alert(del.data.message);
+                navigate("/employees/employees")
+            }).catch((error) => {
+                console.log(error)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <>
             <Card className="my-2" style={{ width: "100%" }}>
@@ -90,7 +108,7 @@ const Employees = ({ baseUrl }) => {
                                                     </Spinner>
                                                 ) : ( */}
                                                 <i class="uil uil-trash-alt"
-                                                // onClick={() => { deleteProject(project._id) }}
+                                                    onClick={() => { deleteEmployee(employee._id) }}
                                                 ></i>
                                                 {/* )} */}
                                             </Button>

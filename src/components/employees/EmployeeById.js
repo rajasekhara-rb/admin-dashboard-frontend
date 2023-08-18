@@ -1,8 +1,45 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle } from "reactstrap";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Input } from "reactstrap";
 
-const EmployeeById = () => {
+const EmployeeById = ({ baseUrl }) => {
+    const [employeeData, setEmployeeData] = useState({})
+    console.log(employeeData)
+    const { id } = useParams()
+    const navigate = useNavigate()
+    // console.log(id)
+    const getEmployeeData = async () => {
+        await axios.get(`${baseUrl}/employees/${id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Brarer " + localStorage.getItem("jwt")
+            }
+        }).then((employee) => {
+            setEmployeeData(employee.data)
+        })
+    }
+    useEffect(() => {
+        getEmployeeData()
+    }, [])
+
+    const deleteEmployee = async () => {
+        try {
+            axios.delete(`${baseUrl}/employees/${id}`, {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("jwt")
+                }
+            }).then((del) => {
+                alert(del.data.message);
+                navigate("/employees/employees")
+            }).catch((error) => {
+                console.log(error)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <>
             <Card
@@ -23,8 +60,8 @@ const EmployeeById = () => {
                         alt="Sample"
                         src="https://picsum.photos/300/200"
                         style={{
-                            width: "250px",
-                            height: "250px",
+                            width: "200px",
+                            height: "200px",
                             borderRadius: "50%",
                             margin: "20px",
                             border: "5px solid #fcf0fc"
@@ -32,25 +69,30 @@ const EmployeeById = () => {
                     />
                     <CardBody>
                         <CardTitle tag="h5">
-                            Card title
+                            Name: {employeeData.employeeName}
+                            {/* <Input value={employeeData.employeeName} disabled> </Input> */}
                         </CardTitle>
                         <CardSubtitle
                             className="mb-2 text-muted"
                             tag="h6"
                         >
-                            Card subtitle
+                            Email : {employeeData.employeeEmail}
                         </CardSubtitle>
                         <CardText>
-                            Some quick example text to build on the card title and make up the bulk of the card‘s content.
+                            Phone No: {employeeData.employeePhoneNo}
+                        </CardText>
+                        <CardText>
+                            Id: {employeeData._id}
                         </CardText>
                     </CardBody>
                 </div>
                 <CardFooter>
-                    <Link to={`/employees/edit/:id`}>
+                    <Link to={`/employees/edit/${id}`}>
                         <Button color="warning">
                             <i class="uil uil-edit"></i>
                         </Button>
                     </Link>
+                    {' '}
                     <Button color="danger" >
                         {/* {projectId === project._id && isdeleted ? (
                                                     <Spinner color="light" size="sm">
@@ -58,7 +100,7 @@ const EmployeeById = () => {
                                                     </Spinner>
                                                 ) : ( */}
                         <i class="uil uil-trash-alt"
-                        // onClick={() => { deleteProject(project._id) }}
+                            onClick={() => { deleteEmployee() }}
                         ></i>
                         {/* )} */}
                     </Button>
