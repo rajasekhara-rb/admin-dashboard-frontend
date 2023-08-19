@@ -11,7 +11,7 @@ const EmployeesPage = () => {
                 <div style={{ position: "abolute" }}>
                     <EmployeesSidebar />
                 </div>
-                <div style={{ position: "relative", overflowY: "scroll", width: "85vw" }}>
+                <div style={{ position: "relative", overflowY: "scroll", width: "85vw", height: "100%" }}>
                     <Outlet />
                 </div>
             </div>

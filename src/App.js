@@ -59,7 +59,7 @@ function App() {
             </ToastBody>
           </Toast>
         </div> */}
-        <div style={{ width: "100vw", height: "85vh" }}>
+        <div style={{ width: "100vw", height: "85vh", overflow:"hidden" }}>
           <Routes>
             <Route path='/signup' element={<Signup />} />
             <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl} userdetails={userdetails} setUserDetails={setUserDetails} />} />
@@ -71,7 +71,7 @@ function App() {
               <Route path='new' element={<CreateProject baseUrl={baseUrl} />} />
             </Route>
             <Route path='/employees' element={<EmployeesPage />}>
-              <Route path='employees' element={<Employees baseUrl={baseUrl} />} />
+              <Route path='' element={<Employees baseUrl={baseUrl} />} />
               <Route path='view/:id' element={<EmployeeById baseUrl={baseUrl} />} />
               <Route path='edit/:id' element={<EditEmployee baseUrl={baseUrl} />} />
               <Route path='new' element={<CreateEmployees baseUrl={baseUrl} />} />

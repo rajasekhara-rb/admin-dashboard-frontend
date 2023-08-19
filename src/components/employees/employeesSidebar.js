@@ -17,7 +17,7 @@ const EmployeesSidebar = () => {
             <div style={{ display: "flex", flexDirection: "column", width: "15vw", minWidth: "15vw", height: "100vh", background: "#f0f0f0" }}>
 
                 <ListGroup style={{ margin: "10px" }}>
-                    <Link to="/employees/employees" style={{ textDecoration: "none" }}>
+                    <Link to="/employees/" style={{ textDecoration: "none" }}>
                         <ListGroupItem
                             action
                             // active

@@ -23,25 +23,31 @@ const CreateEmployees = ({ baseUrl }) => {
             phone: employee.phone,
         }
         try {
-            await axios.post(`${baseUrl}/employees`, newEmployee, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                }
-            }).then((resp) => {
-                alert(resp.data.message)
-                navigate("/employees/employees")
-            }).catch((error) => {
-                console.log(error)
-            })
+            if (!employee.name || !employee.email || !employee.phone) {
+                alert("Fields cannot be empty")
+            } else {
+
+                await axios.post(`${baseUrl}/employees`, newEmployee, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then((resp) => {
+                    alert(resp.data.message)
+                    navigate("/employees/")
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
         } catch (error) {
             console.log(error)
         }
+
     }
 
     return (
         <>
-            <div style={{ width: "100%", height: "100%", display: "flex", flexWrap:"wrap", justifyContent: "center", alignItems: "flex-start" }}>
+            <div style={{ width: "100%", height: "100%", display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "flex-start" }}>
                 <Form style={{ marginTop: "50px", width: "95%", border: "1px solid #f0f0f0", padding: "20px", borderRadius: "10px" }}>
                     <FormGroup>
                         <h2 style={{ textAlign: "center" }}>Create Employee</h2>

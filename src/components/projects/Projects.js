@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Spinner } from "reactstrap";
+import { Badge, Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Spinner } from "reactstrap";
 
 const Projects = ({ baseUrl }) => {
 
@@ -83,71 +83,85 @@ const Projects = ({ baseUrl }) => {
 
             ) : (
 
-                <div style={{
-                    display: "flex",
-                    // gridTemplateColumns: "repeat(3, 1fr)",
-                    // gridGap: "20px",
-                    justifyContent: "center",
-                    alignItems: "flex-start",
-                    padding: "20px",
-                    width: "100%",
-                    flexWrap: "wrap"
-                }}>
+                <Card className="my-2" style={{ width: "100%" }}>
+                    <CardHeader>
+                        <CardTitle tag="h5">
+                            Projects {' '}
+                            <Badge>
+                                {projectsArr.length}
+                            </Badge>
+                        </CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <div style={{
+                            display: "flex",
+                            // gridTemplateColumns: "repeat(3, 1fr)",
+                            // gridGap: "20px",
+                            justifyContent: "center",
+                            alignItems: "flex-start",
+                            padding: "20px",
+                            width: "100%",
+                            flexWrap: "wrap"
+                        }}>
 
-                    {projectsArr.map(project => {
-                        return (
-                            <Card
-                                style={{
-                                    width: '15rem',
-                                    // height: "5rem",
-                                    margin: "10px"
-                                }}
-                                key={[project._id]}
-                            >
-                                <CardHeader>
-                                    {project._id}
-                                </CardHeader>
-                                <CardBody>
-                                    <CardTitle tag="h5">
-                                        {project.projectName}
-                                    </CardTitle>
-                                    {/* <CardSubtitle
+                            {projectsArr.map(project => {
+                                return (
+                                    <Card
+                                        style={{
+                                            width: '15rem',
+                                            // height: "5rem",
+                                            margin: "10px"
+                                        }}
+                                        key={[project._id]}
+                                    >
+                                        <CardHeader>
+                                            {project._id}
+                                        </CardHeader>
+                                        <CardBody>
+                                            <CardTitle tag="h5">
+                                                {project.projectName}
+                                            </CardTitle>
+                                            {/* <CardSubtitle
                                     className="mb-2 text-muted"
                                     tag="h6"
                                 >
                                     {project.projectStatus}
                                 </CardSubtitle> */}
-                                    <CardText>
-                                        {project.projectDescription}
-                                    </CardText>
-                                </CardBody>
-                                <CardFooter style={{ display: "flex", justifyContent: "space-between" }}>
-                                    <Link to={`/projects/view/${project._id}`}>
-                                        <Button color="primary">
-                                            <i class="uil uil-eye"></i>
-                                        </Button>
-                                    </Link>
-                                    <Link to="/projects/edit/:id">
-                                        <Button color="warning">
-                                            <i class="uil uil-edit"></i>
-                                        </Button>
-                                    </Link>
-                                    <Button color="danger" >
-                                        {projectId === project._id && isdeleted ? (
-                                            <Spinner color="light" size="sm">
-                                                Loading...
-                                            </Spinner>
-                                        ) : (
-                                            <i class="uil uil-trash-alt"
-                                                onClick={() => { deleteProject(project._id) }}
-                                            ></i>
-                                        )}
-                                    </Button>
-                                </CardFooter>
-                            </Card>
-                        )
-                    })}
-                </div>
+                                            <CardText>
+                                                {project.projectDescription}
+                                            </CardText>
+                                        </CardBody>
+                                        <CardFooter style={{ display: "flex", justifyContent: "space-between" }}>
+                                            <Link to={`/projects/view/${project._id}`}>
+                                                <Button color="primary">
+                                                    <i class="uil uil-eye"></i>
+                                                </Button>
+                                            </Link>
+                                            <Link to={`/projects/edit/${project._id}`}>
+                                                <Button color="warning">
+                                                    <i class="uil uil-edit"></i>
+                                                </Button>
+                                            </Link>
+                                            <Button color="danger" >
+                                                {projectId === project._id && isdeleted ? (
+                                                    <Spinner color="light" size="sm">
+                                                        Loading...
+                                                    </Spinner>
+                                                ) : (
+                                                    <i class="uil uil-trash-alt"
+                                                        onClick={() => { deleteProject(project._id) }}
+                                                    ></i>
+                                                )}
+                                            </Button>
+                                        </CardFooter>
+                                    </Card>
+                                )
+                            })}
+                        </div>
+                    </CardBody>
+                </Card>
+
+
             )}
 
         </>

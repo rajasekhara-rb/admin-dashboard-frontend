@@ -8,9 +8,10 @@ const ProjectById = ({ baseUrl }) => {
 
     const [project, setproject] = useState({})
     const [projectEmployes, setProjectEmployees] = useState([])
-    console.log(projectEmployes)
+    // console.log(projectEmployes)
     const { id } = useParams();
-    const [statuscolor, setStatusColor] = useState("warning");
+    const [statuscolor, setStatusColor] = useState();
+    // console.log(statuscolor)
     // console.log(id)
     const token = localStorage.getItem("jwt")
     useEffect(() => {
@@ -27,6 +28,7 @@ const ProjectById = ({ baseUrl }) => {
                     // console.log(data.data)
                     setproject(data.data)
                     // alert(data.data)
+                    statusColorDefine(data.data.projectStatus)
                 }).catch((error) => {
                     console.log(error)
                 })
@@ -40,19 +42,22 @@ const ProjectById = ({ baseUrl }) => {
     )
 
 
-    const statusColorDefile = (value) => {
-        if (value === "Not Started") {
+    const statusColorDefine = (status) => {
+        // const color = value
+        // console.log(color)
+        if (status === "Not Started") {
             setStatusColor("danger")
-        } else if (value === "On Track") {
-            setStatusColor("info")
-        } else if (value === "Pending") {
+        } else if (status === "On Track") {
+            setStatusColor("info");
+        } else if (status === "Pending") {
             setStatusColor("warning")
-        } else if (value === "Completed") {
-            setStatusColor("Success")
+        } else if (status === "Completed") {
+            setStatusColor("success")
         } else {
             setStatusColor("primary")
         }
     }
+    console.log(statuscolor)
 
     const getAssignedEmployesByProjectId = async () => {
         try {
@@ -95,7 +100,7 @@ const ProjectById = ({ baseUrl }) => {
                     </CardHeader> */}
                     <CardBody>
                         <CardText style={{ display: "flex", justifyContent: "flex-end" }}>
-                            <Button color={statuscolor} onChange={() => { statusColorDefile(project.projectStatus) }}>
+                            <Button color={statuscolor}>
                                 {project.projectStatus}
                             </Button>
                         </CardText>
@@ -145,7 +150,7 @@ const ProjectById = ({ baseUrl }) => {
                                 {/* )} */}
                             </Button>
                             {' '}
-                            <Link to="/projects/edit/:id">
+                            <Link to={`/projects/edit/${project._id}`}>
                                 <Button color="warning">
                                     <i class="uil uil-edit"></i>
                                 </Button>

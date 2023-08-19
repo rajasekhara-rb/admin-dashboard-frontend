@@ -1,14 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Input } from "reactstrap";
 
 const EditEmployee = ({ baseUrl }) => {
+    const navigate = useNavigate()
 
     const [employeeData, setEmployeeData] = useState({});
     // const empData = employeeData;
 
-    const [newEmplooyeeData, setNewEmplooyeeData] = useState({})
+    // const [newEmplooyeeData, setNewEmplooyeeData] = useState({})
     console.log(employeeData)
     const { id } = useParams()
     // console.log(id)
@@ -20,6 +21,7 @@ const EditEmployee = ({ baseUrl }) => {
             }
         }).then((employee) => {
             setEmployeeData(employee.data)
+            // navigate("/employees/employees")
         })
     }
     useEffect(() => {
@@ -27,24 +29,32 @@ const EditEmployee = ({ baseUrl }) => {
     }, [0])
 
     const handleChange = (e) => {
+        setEmployeeData({})
         const { name, value } = e.target;
-        setNewEmplooyeeData({ ...newEmplooyeeData, [name]: value })
+        setEmployeeData({ ...employeeData, [name]: value })
     }
-    console.log(newEmplooyeeData)
+    console.log(employeeData)
 
     const updateEmployeeData = async (e) => {
         // e.preventDefault()
         try {
-            axios.put(`${baseUrl}/employees/${id}`, newEmplooyeeData, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("jwt")
-                }
-            }).then(() => {
-                alert("update successful")
-            }).catch((error) => {
-                console.log(error)
-            })
+            axios.put(`${baseUrl}/employees/${id}`,
+                {
+                    name: employeeData.employeeName,
+                    email: employeeData.employeeEmail,
+                    phone: employeeData.employeePhoneNo,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + localStorage.getItem("jwt")
+                    }
+                }).then(() => {
+                    alert("update successful");
+                    navigate("/employees/")
+                }).catch((error) => {
+                    console.log(error)
+                })
         }
         catch (error) {
             console.log(error)
@@ -52,8 +62,8 @@ const EditEmployee = ({ baseUrl }) => {
     }
 
     const handleDisplay = (val) => {
-        if (newEmplooyeeData.val) {
-            return newEmplooyeeData.val
+        if (employeeData.val) {
+            return employeeData.val
         } else {
             return employeeData.val
         }
@@ -90,7 +100,7 @@ const EditEmployee = ({ baseUrl }) => {
                     <CardBody>
                         <CardTitle tag="h5">
                             Name <Input
-                                name="name"
+                                name="employeeName"
                                 value={employeeData.employeeName}
                                 // value={handleDisplay("employeeName")}
                                 onChange={handleChange}
@@ -101,7 +111,7 @@ const EditEmployee = ({ baseUrl }) => {
                             tag="h6"
                         >
                             Email <Input
-                                name="email"
+                                name="employeeEmail"
                                 value={employeeData.employeeEmail}
                                 // value={handleDisplay("employeeEmail")}
                                 onChange={handleChange}
@@ -109,7 +119,7 @@ const EditEmployee = ({ baseUrl }) => {
                         </CardSubtitle>
                         <CardText>
                             Phone No <Input
-                                name="phone"
+                                name="employeePhoneNo"
                                 value={employeeData.employeePhoneNo}
                                 // value={handleDisplay("employeePhoneNo")}
                                 onChange={handleChange}
@@ -129,6 +139,19 @@ const EditEmployee = ({ baseUrl }) => {
                         ></i> Save
                         {/* )} */}
                     </Button>
+                    {' '}
+                    <Link to={`/employees/`}>
+                        <Button color="danger">
+                            <i class="uil uil-times"></i> Cancel
+                        </Button>
+                    </Link>
+                    {' '}
+                    <Link to={`/employees/view/${id}`}>
+                        <Button color="primary">
+                            <i class="uil uil-eye"></i> View
+                        </Button>
+                    </Link>
+                    {' '}
                 </CardFooter>
             </Card>
         </>

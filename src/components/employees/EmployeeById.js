@@ -31,7 +31,7 @@ const EmployeeById = ({ baseUrl }) => {
                 }
             }).then((del) => {
                 alert(del.data.message);
-                navigate("/employees/employees")
+                navigate("/employees/")
             }).catch((error) => {
                 console.log(error)
             })
@@ -87,21 +87,27 @@ const EmployeeById = ({ baseUrl }) => {
                     </CardBody>
                 </div>
                 <CardFooter>
-                    <Link to={`/employees/edit/${id}`}>
-                        <Button color="warning">
-                            <i class="uil uil-edit"></i>
+                    <Link to={`/employees/`}>
+                        <Button color="primary">
+                            <i class="uil uil-times"></i> Close
                         </Button>
                     </Link>
                     {' '}
-                    <Button color="danger" >
+                    <Link to={`/employees/edit/${id}`}>
+                        <Button color="warning">
+                            <i class="uil uil-edit"></i> Edit
+                        </Button>
+                    </Link>
+                    {' '}
+                    <Button color="danger" onClick={() => { deleteEmployee() }}>
                         {/* {projectId === project._id && isdeleted ? (
                                                     <Spinner color="light" size="sm">
                                                         Loading...
                                                     </Spinner>
                                                 ) : ( */}
                         <i class="uil uil-trash-alt"
-                            onClick={() => { deleteEmployee() }}
-                        ></i>
+
+                        ></i> Delete
                         {/* )} */}
                     </Button>
                 </CardFooter>

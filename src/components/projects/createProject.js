@@ -11,28 +11,6 @@ const CreateProject = ({ baseUrl }) => {
     const [project, setProject] = useState({});
     const navigate = useNavigate()
 
-
-
-    // useEffect(() => {
-    //     const getEmployees = async () => {
-    //         try {
-    //             await axios.get(`${baseUrl}/employees/`, {
-    //                 headers: {
-    //                     "Content-Type": "application/json",
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             }).then((employees) => {
-    //                 setEmployees(employees.data)
-    //             }).catch((error) => {
-    //                 console.log(error)
-    //             })
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }
-    //     getEmployees()
-    // }, [])
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProject({ ...project, [name]: value })
@@ -42,19 +20,24 @@ const CreateProject = ({ baseUrl }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const newProject = {
-                name: project.name,
-                description: project.description
-            }
-            await axios.post(`${baseUrl}/projects/`, newProject, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
+            if (!project.name || !project.description) {
+                alert("Fields cannot be empty")
+            } else {
+
+                const newProject = {
+                    name: project.name,
+                    description: project.description
                 }
-            }).then((data) => {
-                navigate(`/projects/view/${data.data.project._id}`)
-                alert("Project created")
-            })
+                await axios.post(`${baseUrl}/projects/`, newProject, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then((data) => {
+                    navigate(`/projects/view/${data.data.project._id}`)
+                    alert("Project created")
+                })
+            }
         } catch (error) {
             console.log(error)
         }

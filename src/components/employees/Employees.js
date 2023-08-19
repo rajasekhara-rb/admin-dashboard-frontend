@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Spinner } from "reactstrap";
+import { Badge, Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Spinner } from "reactstrap";
 
 const Employees = ({ baseUrl }) => {
     const navigate = useNavigate()
@@ -36,7 +36,8 @@ const Employees = ({ baseUrl }) => {
                 }
             }).then((del) => {
                 alert(del.data.message);
-                navigate("/employees/employees")
+                navigate("/employees/")
+                getEmployeesData()
             }).catch((error) => {
                 console.log(error)
             })
@@ -49,11 +50,14 @@ const Employees = ({ baseUrl }) => {
             <Card className="my-2" style={{ width: "100%" }}>
                 <CardHeader>
                     <CardTitle tag="h5">
-                        Employees
+                        Employees {' '}
+                        <Badge>
+                            {employees.length}
+                        </Badge>
                     </CardTitle>
                 </CardHeader>
                 <CardBody>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridGap: "10px" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: "10px" }}>
                         {
                             employees.map((employee) => {
                                 return (
@@ -93,23 +97,23 @@ const Employees = ({ baseUrl }) => {
                                         <CardFooter style={{ display: "flex", justifyContent: "space-between" }}>
                                             <Link to={`/employees/view/${employee._id}`}>
                                                 <Button color="primary">
-                                                    <i class="uil uil-eye"></i>
+                                                    <i class="uil uil-eye"></i> View
                                                 </Button>
                                             </Link>
                                             <Link to={`/employees/edit/${employee._id}`}>
                                                 <Button color="warning">
-                                                    <i class="uil uil-edit"></i>
+                                                    <i class="uil uil-edit"></i> Edit
                                                 </Button>
                                             </Link>
-                                            <Button color="danger" >
+                                            <Button color="danger" onClick={() => { deleteEmployee(employee._id) }}>
                                                 {/* {projectId === project._id && isdeleted ? (
                                                     <Spinner color="light" size="sm">
                                                         Loading...
                                                     </Spinner>
                                                 ) : ( */}
                                                 <i class="uil uil-trash-alt"
-                                                    onClick={() => { deleteEmployee(employee._id) }}
-                                                ></i>
+
+                                                ></i> Delete
                                                 {/* )} */}
                                             </Button>
                                             {/* <Button color="danger">
