@@ -1,13 +1,16 @@
 import axios from "axios";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardHeader, CardImg, CardSubtitle, CardText, CardTitle, Progress } from "reactstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Button, Card, CardBody, CardFooter, CardImg, CardText, CardTitle, Progress } from "reactstrap";
+import AssignEmployees from "./AssignedEmployees";
 
 const ProjectById = ({ baseUrl }) => {
 
+    const navigate = useNavigate()
+
     const [project, setproject] = useState({})
-    const [projectEmployes, setProjectEmployees] = useState([])
+
     // console.log(projectEmployes)
     const { id } = useParams();
     const [statuscolor, setStatusColor] = useState();
@@ -37,7 +40,7 @@ const ProjectById = ({ baseUrl }) => {
             }
         }
         getProjectById()
-    }, [baseUrl, id]
+    }, [baseUrl, id, token]
 
     )
 
@@ -59,28 +62,31 @@ const ProjectById = ({ baseUrl }) => {
     }
     console.log(statuscolor)
 
-    const getAssignedEmployesByProjectId = async () => {
-        try {
+        const deleteProject = async (project_id) => {
+        // setProjectId(project_id)
+        // setIsDeleted(true)
+        const confirmDelete = window.prompt(`To confirm delete enter project id : ${project_id} ?`);
+        if (confirmDelete === project_id) {
+            try {
+                await axios.delete(`${baseUrl}/projects/${project_id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then((isdeleted) => {
+                    // getData()
+                    // setIsDeleted(false)
+                    alert(isdeleted.data.message)
+                    navigate("/projects/myprojects")
 
-            await axios.get(`${baseUrl}/employees/projectId/${id}`, {
-                headers: {
-                    "Content-Type": "html/text",
-                    Authorization: `Bearer ${token}`
-                }
-            })
-                .then((resp) => {
-                    setProjectEmployees(resp.data)
-                }).catch((error) => {
-                    console.log(error)
                 })
-        } catch (error) {
-            console.log(error)
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            // setIsDeleted(false)
         }
-    }
 
-    useEffect(() => {
-        getAssignedEmployesByProjectId()
-    }, [])
+    }
     return (
         <>
             <div
@@ -138,95 +144,29 @@ const ProjectById = ({ baseUrl }) => {
                     </CardBody>
                     <CardFooter style={{ display: "flex", justifyContent: "flex-end" }}>
                         <div>
-                            <Button color="info" >
-                                {/* {projectId === project._id && isdeleted ? (
-                            <Spinner color="light" size="sm">
-                                Loading...
-                            </Spinner>
-                        ) : ( */}
-                                <i class="uil uil-user-plus"
-                                // onClick={() => { deleteProject(project._id) }}
-                                ></i>
-                                {/* )} */}
-                            </Button>
-                            {' '}
+
                             <Link to={`/projects/edit/${project._id}`}>
                                 <Button color="warning">
-                                    <i class="uil uil-edit"></i>
+                                    <i class="uil uil-edit"></i> Edit
                                 </Button>
                             </Link>
                             {' '}
-                            <Button color="danger" >
+                            <Button color="danger"
+                                onClick={() => { deleteProject(project._id) }}
+                            >
                                 {/* {projectId === project._id && isdeleted ? (
                             <Spinner color="light" size="sm">
                                 Loading...
                             </Spinner>
                         ) : ( */}
                                 <i class="uil uil-trash-alt"
-                                // onClick={() => { deleteProject(project._id) }}
-                                ></i>
+                                ></i> Delete
                                 {/* )} */}
                             </Button>
                         </div>
                     </CardFooter>
                 </Card>
-
-
-                <Card className="my-2">
-                    <CardHeader>
-                        <CardTitle tag="h5">
-                            Assigned Employees
-                        </CardTitle>
-                    </CardHeader>
-                    <CardBody>
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gridGap: "10px" }}>
-                            {
-                                projectEmployes.map((employee) => {
-                                    return (
-                                        // <Card>
-                                        //     <CardTitle tag="h5">
-                                        //         {employee.assignedProject}
-                                        //     </CardTitle>
-                                        // </Card>
-                                        // <div>{employee._id}</div>
-
-
-                                        <Card
-                                            style={{
-                                                width: '18rem'
-                                            }}
-                                        >
-                                            <img
-                                                alt="Sample"
-                                                src="https://picsum.photos/300/200"
-                                            />
-                                            <CardBody>
-                                                <CardTitle tag="h5">
-                                                    {employee.employeeName}
-                                                </CardTitle>
-                                                <CardSubtitle
-                                                    className="mb-2 text-muted"
-                                                    tag="h6"
-                                                >
-                                                    {employee.employeeEmail}
-                                                </CardSubtitle>
-                                                <CardText>
-                                                    {employee.employeePhoneNo}
-                                                </CardText>
-                                                <Button color="danger">
-                                                    Assign Other Project
-                                                </Button>
-                                            </CardBody>
-                                        </Card>
-                                    )
-                                })
-                            }
-                        </div>
-
-
-                    </CardBody>
-                </Card>
-
+                <AssignEmployees baseUrl={baseUrl} id={id} />
             </div>
 
             {/* <div style={{ width: "100%", margin: "10px" }}>

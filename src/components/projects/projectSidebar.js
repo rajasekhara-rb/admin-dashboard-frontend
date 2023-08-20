@@ -24,6 +24,15 @@ const ProjectSidebar = () => {
                     </li>
                 </ul> */}
                 <ListGroup style={{ margin: "10px" }}>
+                    <Link to="/projects" style={{ textDecoration: "none" }}>
+                        <ListGroupItem
+                            action
+                            // active
+                            tag="button"
+                        >
+                            Dashboard
+                        </ListGroupItem>
+                    </Link>
                     <Link to="/projects/myprojects" style={{ textDecoration: "none" }}>
                         <ListGroupItem
                             action

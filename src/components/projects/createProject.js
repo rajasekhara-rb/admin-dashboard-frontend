@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 const CreateProject = ({ baseUrl }) => {
@@ -156,11 +156,14 @@ const CreateProject = ({ baseUrl }) => {
                             style={{ width: "100%" }}>
                             Submit
                         </Button>
-                        {/* {" "}
-                        <Button color="link" onClick={() => { navigate("/signup") }} style={{ width: "50%" }}>
-                            Don't have an account? SignUp
-                        </Button> */}
+                        {' '}
                     </FormGroup>
+                    <Link to="/projects/myprojects">
+                        <Button color="danger"
+                            style={{ width: "100%" }}>
+                            Cancel
+                        </Button>
+                    </Link>
                 </Form>
             </div>
 
