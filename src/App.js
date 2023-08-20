@@ -16,6 +16,7 @@ import ProjectById from './components/projects/projectById';
 import EmployeeById from './components/employees/EmployeeById';
 import EditEmployee from './components/employees/EditEmployee';
 import EditProject from './components/projects/EditProject';
+import MainDashboard from './components/projects/MainDashboard';
 
 // import { Toast, ToastBody, ToastHeader } from "reactstrap";
 
@@ -59,12 +60,13 @@ function App() {
             </ToastBody>
           </Toast>
         </div> */}
-        <div style={{ width: "100vw", height: "85vh", overflow:"hidden" }}>
+        <div style={{ width: "100vw", height: "85vh", overflow: "hidden" }}>
           <Routes>
             <Route path='/signup' element={<Signup />} />
             <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl} userdetails={userdetails} setUserDetails={setUserDetails} />} />
             <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
             <Route path='/projects' element={<ProjectsPage />}>
+              {/* <Route path='' element={<MainDashboard baseUrl={baseUrl}/>} /> */}
               <Route path='myprojects' element={<Projects baseUrl={baseUrl} />} />
               <Route path='view/:id' element={<ProjectById baseUrl={baseUrl} />} />
               <Route path='edit/:id' element={<EditProject baseUrl={baseUrl} />} />

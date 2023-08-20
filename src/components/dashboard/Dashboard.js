@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import MainDashboard from "../projects/MainDashboard";
 
 const Dashboard = ({ isLoggedIn, setIsLoggedIn }) => {
 
@@ -13,9 +14,7 @@ const Dashboard = ({ isLoggedIn, setIsLoggedIn }) => {
     }, [isLoggedIn, navigate])
     return (
         <>
-            Dashboard
-
-
+            <MainDashboard />
         </>
     )
 }

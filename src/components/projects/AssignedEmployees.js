@@ -38,7 +38,7 @@ const AssignEmployees = ({ baseUrl, id }) => {
     useEffect(() => {
         const getEmployeesData = async () => {
             try {
-                await axios.get(`${baseUrl}/employees`, {
+                await axios.get(`${baseUrl}/unassigned/`, {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`
