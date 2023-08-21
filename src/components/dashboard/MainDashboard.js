@@ -1,9 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle } from "reactstrap";
+import PieChart from "../charts/pieChart";
+import SalesChart from "../charts/salesChart";
+import PaymentsTable from "../projects/paymentsTable";
+import axios from "axios";
 
-const MainDashboard = () => {
+const MainDashboard = ({ isLoggedIn, baseUrl }) => {
+
+    const [payments, setPayments] = useState([])
+    const token = localStorage.getItem("jwt")
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate("/signin")
+        } else {
+            navigate("/")
+        }
+    }, [isLoggedIn, navigate])
+
+
+    const getPayments = async () => {
+        try {
+            await axios.get(`${baseUrl}/payments/`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                .then((data) => {
+                    setPayments(data.data)
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getPayments()
+    })
+
     return (
-        <div style={{ overflow: "scroll", width:"100%", height:"100%" }}>
+        <div style={{ overflow: "scroll", width: "100%", height: "100%" }}>
             <Card
                 className="my-2"
                 style={{
@@ -69,15 +108,16 @@ const MainDashboard = () => {
                     Project Charts
                 </CardHeader>
                 <CardBody style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridGap: "10px" }}>
-
-                    <Card >
+                    <Card style={{ height: "100%" }}>
                         <CardHeader>
-                            Pie cahart project status wise
+                            Projects Status
                         </CardHeader>
-                        <CardBody>
-                            chart
+                        <CardBody style={{ margin: "auto" }}>
+                            <PieChart />
                         </CardBody>
                     </Card>
+
+
                     <Card >
                         <CardHeader>
                             project with unassigned employee
@@ -104,29 +144,29 @@ const MainDashboard = () => {
                 </CardHeader>
                 <CardBody style={{ display: "grid", gridTemplateColumns: "1fr", gridGap: "10px" }}>
 
-                    <Card >
+                    <Card style={{ height: "100%" }}>
                         <CardHeader>
-                            Sales month wise
+                            Sales Monthly
                         </CardHeader>
-                        <CardBody>
-                            chart
+                        <CardBody style={{ margin: "auto", width: "100%" }}>
+                            <SalesChart />
                         </CardBody>
                     </Card>
                     <Card >
                         <CardHeader>
-                            sales yearly
+                            Sales Yearly
                         </CardHeader>
                         <CardBody>
-                            chart
+                            <SalesChart />
                         </CardBody>
                     </Card>
 
                     <Card >
                         <CardHeader>
-                            all Payments
+                            All Payments
                         </CardHeader>
                         <CardBody>
-                            chart
+                            <PaymentsTable payments={payments}/>
                         </CardBody>
                     </Card>
                 </CardBody>

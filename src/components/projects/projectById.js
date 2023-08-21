@@ -2,14 +2,17 @@ import axios from "axios";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardImg, CardText, CardTitle, Progress } from "reactstrap";
+import { Button, Card, CardBody, CardFooter, CardHeader, CardImg, CardText, CardTitle, Progress } from "reactstrap";
 import AssignEmployees from "./AssignedEmployees";
+import PaymentsTable from "./paymentsTable";
 
 const ProjectById = ({ baseUrl }) => {
 
     const navigate = useNavigate()
 
     const [project, setproject] = useState({})
+
+    const [payments, setPayments] = useState([]);
 
     // console.log(projectEmployes)
     const { id } = useParams();
@@ -62,7 +65,7 @@ const ProjectById = ({ baseUrl }) => {
     }
     console.log(statuscolor)
 
-        const deleteProject = async (project_id) => {
+    const deleteProject = async (project_id) => {
         // setProjectId(project_id)
         // setIsDeleted(true)
         const confirmDelete = window.prompt(`To confirm delete enter project id : ${project_id} ?`);
@@ -87,6 +90,26 @@ const ProjectById = ({ baseUrl }) => {
         }
 
     }
+
+    const getPayments = async () => {
+        try {
+            await axios.get(`${baseUrl}/payments/`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                .then((data) => {
+                    setPayments(data.data)
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getPayments()
+    })
     return (
         <>
             <div
@@ -167,6 +190,15 @@ const ProjectById = ({ baseUrl }) => {
                     </CardFooter>
                 </Card>
                 <AssignEmployees baseUrl={baseUrl} id={id} />
+                <Card>
+                    <CardHeader><CardTitle tag="h5">
+                        Payments
+                    </CardTitle>
+                    </CardHeader>
+                    <CardBody>
+                        <PaymentsTable payments={payments}/>
+                    </CardBody>
+                </Card>
             </div>
 
             {/* <div style={{ width: "100%", margin: "10px" }}>
