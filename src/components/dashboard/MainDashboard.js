@@ -21,25 +21,23 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
     }, [isLoggedIn, navigate])
 
 
-    const getPayments = async () => {
-        try {
-            await axios.get(`${baseUrl}/payments/`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                .then((data) => {
-                    setPayments(data.data)
-                })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     useEffect(() => {
+        const getPayments = async () => {
+            try {
+                await axios.get(`${baseUrl}/payments/`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then((data) => {
+                        setPayments(data.data)
+                    })
+            } catch (error) {
+                console.log(error)
+            }
+        }
         getPayments()
-    })
+    }, [baseUrl, token])
 
     return (
         <div style={{ overflow: "scroll", width: "100%", height: "100%" }}>
@@ -75,7 +73,7 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
 
                     <Card style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <CardTitle tag="h5">
-                            10
+                            {payments.length}
                         </CardTitle>
                         <CardTitle tag="h5">
                             Payments
@@ -166,7 +164,7 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
                             All Payments
                         </CardHeader>
                         <CardBody>
-                            <PaymentsTable payments={payments}/>
+                            <PaymentsTable payments={payments} />
                         </CardBody>
                     </Card>
                 </CardBody>

@@ -63,7 +63,7 @@ const ProjectById = ({ baseUrl }) => {
             setStatusColor("primary")
         }
     }
-    console.log(statuscolor)
+    // console.log(statuscolor)
 
     const deleteProject = async (project_id) => {
         // setProjectId(project_id)
@@ -91,25 +91,26 @@ const ProjectById = ({ baseUrl }) => {
 
     }
 
-    const getPayments = async () => {
-        try {
-            await axios.get(`${baseUrl}/payments/`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
-                .then((data) => {
-                    setPayments(data.data)
-                })
-        } catch (error) {
-            console.log(error)
-        }
-    }
+
 
     useEffect(() => {
+        const getPayments = async () => {
+            try {
+                await axios.get(`${baseUrl}/payments/project/${id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    })
+                    .then((data) => {
+                        setPayments(data.data)
+                    })
+            } catch (error) {
+                console.log(error)
+            }
+        }
         getPayments()
-    })
+    }, [baseUrl, token])
     return (
         <>
             <div
@@ -196,7 +197,7 @@ const ProjectById = ({ baseUrl }) => {
                     </CardTitle>
                     </CardHeader>
                     <CardBody>
-                        <PaymentsTable payments={payments}/>
+                        <PaymentsTable payments={payments} />
                     </CardBody>
                 </Card>
             </div>

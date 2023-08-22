@@ -1,10 +1,23 @@
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 import { Table } from "reactstrap";
 
 const PaymentsTable = ({ payments }) => {
+
+    // const [amt, setAmt] = useState([])
+
+    const totalamount = []
+    payments?.map((pay) => {
+        totalamount.push(pay.amount)
+        // setAmt()
+        // console.log(pay.amount)
+    })
+    console.log(totalamount)
+
+    // {payments.amount?.reduce((acc, current) => acc + current, 0)}
     return (
         <>
+            <h4>Total Amount {totalamount.reduce((acc, curr) => acc + curr, 0)} INR</h4>
             <Table striped>
                 <thead>
                     <tr>
