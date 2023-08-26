@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle } from "reactstrap";
+import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, FormGroup, Input, InputGroup, Label } from "reactstrap";
 import PieChart from "../charts/pieChart";
 import SalesChart from "../charts/salesChart";
 import PaymentsTable from "../projects/paymentsTable";
@@ -10,6 +10,14 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
 
     const [payments, setPayments] = useState([])
     const token = localStorage.getItem("jwt")
+
+    const [monthlySales, setMonthlySales] = useState([])
+    const [monthlySalesLables, setMonthlySalesLables] = useState([])
+    console.log(monthlySalesLables)
+    const [monthlySalesAmount, setMonthlySalesAmount] = useState([])
+    console.log(monthlySalesAmount)
+
+    // const [selectedSales, setSelectedSales] = useState("monthly")
 
     const navigate = useNavigate();
     useEffect(() => {
@@ -38,6 +46,34 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
         }
         getPayments()
     }, [baseUrl, token])
+
+
+
+    // useEffect(() => {
+    const getSalesByMonth = async (selectedSales) => {
+        // console.log(selectedSales)
+        try {
+            await axios.get(`${baseUrl}/sales/${selectedSales}/`, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }).then((data) => {
+                // setMonthlySales(data.data)
+                setMonthlySalesLables([])
+                setMonthlySalesAmount([])
+                data.data.map((sales) => {
+                    setMonthlySalesLables(current => [...current, `${sales._id.day}-${sales._id.month}-${sales._id.year}`])
+                    setMonthlySalesAmount(current => [...current, sales.amount])
+                })
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    // getSalesByMonth()
+    // }, [token, baseUrl])
+
+    // console.log(monthlySales)
 
     return (
         <div style={{ overflow: "scroll", width: "100%", height: "100%" }}>
@@ -143,11 +179,35 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
                 <CardBody style={{ display: "grid", gridTemplateColumns: "1fr", gridGap: "10px" }}>
 
                     <Card style={{ height: "100%" }}>
-                        <CardHeader>
-                            Sales Monthly
+                        <CardHeader >
+                            <FormGroup style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                <Label for="exampleSelect" style={{ width: "20%" }}>
+                                    Sales
+                                </Label>
+                                <Input
+                                    id="exampleSelect"
+                                    name="select"
+                                    type="select"
+                                    style={{ width: "20%" }}
+                                    onChange={(e) => {
+                                        // setSelectedSales(e.target.value);
+                                        getSalesByMonth(e.target.value)
+                                    }}
+                                >
+                                    <option value="daily" selected>
+                                        Daily
+                                    </option >
+                                    <option value="monthly">
+                                        Monthly
+                                    </option>
+                                    <option value="yearly">
+                                        Yearly
+                                    </option>
+                                </Input>
+                            </FormGroup>
                         </CardHeader>
                         <CardBody style={{ margin: "auto", width: "100%" }}>
-                            <SalesChart />
+                            <SalesChart labels={monthlySalesLables} amounts={monthlySalesAmount} />
                         </CardBody>
                     </Card>
                     <Card >

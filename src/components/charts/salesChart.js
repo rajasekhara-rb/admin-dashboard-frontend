@@ -4,13 +4,20 @@ import ReactApexChart from "react-apexcharts";
 class SalesChart extends React.Component {
     constructor(props) {
         super(props);
-
+        // const salesData = this.props.sales;
+        // console.log(salesData)
         this.state = {
-
+            // data: [
+            //     this.props.monthlySales
+            // ],
             series: [{
-                name: "Desktops",
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                name: "Sales",
+                data: this.props.amounts
+                // [10, 41, 35, 51, 49, 62, 69, 91, 148]
             }],
+            noData: {
+                text: 'Loading...'
+            },
             options: {
                 chart: {
                     height: 350,
@@ -36,7 +43,8 @@ class SalesChart extends React.Component {
                     },
                 },
                 xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+                    categories: this.props.labels
+                    // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
                 }
             },
 
@@ -48,13 +56,10 @@ class SalesChart extends React.Component {
 
     render() {
         return (
-
-
             <div id="chart">
-                <ReactApexChart options={this.state.options} series={this.state.series} type="line" height={350} />
+                <ReactApexChart
+                    options={this.state.options} series={this.state.series} type="line" height={350} />
             </div>
-
-
         );
     }
 }

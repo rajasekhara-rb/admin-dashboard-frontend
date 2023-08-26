@@ -12,7 +12,7 @@ const PaymentsTable = ({ payments }) => {
         // setAmt()
         // console.log(pay.amount)
     })
-    console.log(totalamount)
+    // console.log(totalamount)
 
     // {payments.amount?.reduce((acc, current) => acc + current, 0)}
     return (
