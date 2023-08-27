@@ -7,19 +7,29 @@ import PaymentsTable from "../projects/paymentsTable";
 import axios from "axios";
 
 const MainDashboard = ({ isLoggedIn, baseUrl }) => {
+    const navigate = useNavigate();
 
     const [payments, setPayments] = useState([])
     const token = localStorage.getItem("jwt")
 
-    const [monthlySales, setMonthlySales] = useState([])
-    const [monthlySalesLables, setMonthlySalesLables] = useState([])
-    console.log(monthlySalesLables)
-    const [monthlySalesAmount, setMonthlySalesAmount] = useState([])
-    console.log(monthlySalesAmount)
+    // const [monthlySales, setMonthlySales] = useState([])
+    const [salesLables, setSalesLables] = useState([])
+    // console.log(monthlySalesLables)
+    const [salesAmount, setSalesAmount] = useState([])
+    // console.log(monthlySalesAmount)
 
-    // const [selectedSales, setSelectedSales] = useState("monthly")
+    const [selectedSales, setSelectedSales] = useState("daily")
+    // console.log(selectedSales)
 
-    const navigate = useNavigate();
+    const [projects, setProjects] = useState([])
+    // console.log(projects)
+    const [projectStatusLables, setProjectStatusLables] = useState([])
+    console.log(projectStatusLables)
+    const [projectStatusCounts, setProjectStatusCount] = useState([])
+    console.log(projectStatusCounts)
+
+    const [employees, setEmployees] = useState([])
+
     useEffect(() => {
         if (!isLoggedIn) {
             navigate("/signin")
@@ -27,6 +37,98 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
             navigate("/")
         }
     }, [isLoggedIn, navigate])
+
+    const getProjects = async () => {
+        try {
+            await axios.get(`${baseUrl}/projects/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then((resp) => {
+                // setLoading(false)
+                setProjects(resp.data)
+                // const ontrack = 0;
+                resp.data.map((prj) => {
+                    if (prj.projectStatus === "On Track") {
+                        setProjectStatusLables([])
+                        setProjectStatusLables(current => [...current, "On Track"])
+                        // ontrack++
+                        setProjectStatusCount(current => [...current, current + 1])
+                    }
+                })
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getProjects()
+    }, [])
+
+
+    const getEmployeesData = async () => {
+        try {
+            await axios.get(`${baseUrl}/employees`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                }
+            }).then((resp) => {
+                setEmployees(resp.data)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getEmployeesData()
+    }, [])
+
+
+    const getSales = async () => {
+        // e.preventDefault()
+        // console.log(selectedSales)
+        try {
+            await axios.get(`${baseUrl}/sales/${selectedSales}`, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            }).then((data) => {
+                // setMonthlySales(data.data)
+                setSalesLables([])
+                setSalesAmount([])
+                data.data.map((sales) => {
+                    if (selectedSales === "daily") {
+                        setSalesLables(current => [...current, `${sales._id.day}-${sales._id.month}-${sales._id.year}`])
+                        setSalesAmount(current => [...current, sales.amount])
+                    } else if (selectedSales === "monthly") {
+                        setSalesLables(current => [...current, `${sales._id.month}-${sales._id.year}`])
+                        setSalesAmount(current => [...current, sales.amount])
+                    } else if (selectedSales === "yearly") {
+                        setSalesLables(current => [...current, `${sales._id.year}`])
+                        setSalesAmount(current => [...current, sales.amount])
+                    } else {
+                        alert("error in sales details fetching")
+                    }
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getSales()
+    }, [0])
+
+    const handleSalesChartChange = (e) => {
+        // console.log(selectedSales)
+        setSelectedSales(e.target.value);
+        // getSalesByMonth()
+    }
 
 
     useEffect(() => {
@@ -49,32 +151,6 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
 
 
 
-    // useEffect(() => {
-    const getSalesByMonth = async (selectedSales) => {
-        // console.log(selectedSales)
-        try {
-            await axios.get(`${baseUrl}/sales/${selectedSales}/`, {
-                headers: {
-                    Authorization: "Bearer " + token
-                }
-            }).then((data) => {
-                // setMonthlySales(data.data)
-                setMonthlySalesLables([])
-                setMonthlySalesAmount([])
-                data.data.map((sales) => {
-                    setMonthlySalesLables(current => [...current, `${sales._id.day}-${sales._id.month}-${sales._id.year}`])
-                    setMonthlySalesAmount(current => [...current, sales.amount])
-                })
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    // getSalesByMonth()
-    // }, [token, baseUrl])
-
-    // console.log(monthlySales)
-
     return (
         <div style={{ overflow: "scroll", width: "100%", height: "100%" }}>
             <Card
@@ -91,7 +167,7 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
 
                     <Card style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "10px 0" }}>
                         <CardTitle tag="h5">
-                            3
+                            {projects.length}
                         </CardTitle>
                         <CardTitle tag="h5">
                             Projects
@@ -100,7 +176,7 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
 
                     <Card style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         <CardTitle tag="h5">
-                            9
+                            {employees.length}
                         </CardTitle>
                         <CardTitle tag="h5">
                             Employees
@@ -184,40 +260,57 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
                                 <Label for="exampleSelect" style={{ width: "20%" }}>
                                     Sales
                                 </Label>
-                                <Input
-                                    id="exampleSelect"
-                                    name="select"
-                                    type="select"
-                                    style={{ width: "20%" }}
-                                    onChange={(e) => {
-                                        // setSelectedSales(e.target.value);
-                                        getSalesByMonth(e.target.value)
-                                    }}
-                                >
-                                    <option value="daily" selected>
-                                        Daily
-                                    </option >
-                                    <option value="monthly">
-                                        Monthly
-                                    </option>
-                                    <option value="yearly">
-                                        Yearly
-                                    </option>
-                                </Input>
+                                <div style={{ width: "20%", display: "flex" }}>
+                                    <Input
+                                        id="exampleSelect"
+                                        name="select"
+                                        type="select"
+                                        style={{ width: "100%", padding: "10px", marginRight: "10px" }}
+                                        // onChange={(e) => {
+                                        //     // setSelectedSales(e.target.value);
+                                        //     setSelectedSales(e.target.value);
+                                        //     getSalesByMonth()
+                                        // }}
+                                        onChange={
+                                            (e) => {
+                                                handleSalesChartChange(e);
+                                                // getSalesByMonth()
+                                            }}
+                                    >
+                                        <option value="daily" selected>
+                                            Daily
+                                        </option >
+                                        <option value="monthly">
+                                            Monthly
+                                        </option>
+                                        <option value="yearly">
+                                            Yearly
+                                        </option>
+                                    </Input>
+                                    <Button
+
+                                        onClick={() => { getSales() }}>Go</Button>
+                                </div>
                             </FormGroup>
                         </CardHeader>
                         <CardBody style={{ margin: "auto", width: "100%" }}>
-                            <SalesChart labels={monthlySalesLables} amounts={monthlySalesAmount} />
+                            {
+                                selectedSales ? (
+                                    <SalesChart labels={salesLables} amounts={salesAmount} />
+                                ) : (
+                                    "Loading..."
+                                )
+                            }
                         </CardBody>
                     </Card>
-                    <Card >
+                    {/* <Card >
                         <CardHeader>
                             Sales Yearly
                         </CardHeader>
                         <CardBody>
                             <SalesChart />
                         </CardBody>
-                    </Card>
+                    </Card> */}
 
                     <Card >
                         <CardHeader>
