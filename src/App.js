@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Projects from './components/projects/projects';
-import Dashboard from './components/dashboard/Dashboard';
+import Projects from './components/projects/projects.js';
+// import Dashboard from './components/dashboard/Dashboard';
 import Navbar from './components/navbar/navbar';
 import CreateProject from './components/projects/createProject';
 import ProjectsPage from './components/projects/ProjectsPage';
