@@ -32,7 +32,6 @@ const Signin = ({ setIsLoggedIn, baseUrl, setUserDetails }) => {
                     if (loggedin.data.token) {
                         alert(loggedin.data.message)
 
-
                         localStorage.setItem("jwt", loggedin.data.token)
                         setIsLoggedIn(true);
                         localStorage.setItem("user", JSON.stringify(loggedin.data.user))

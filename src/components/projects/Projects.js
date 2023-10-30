@@ -10,9 +10,9 @@ const Projects = ({ baseUrl }) => {
     // console.log(projectsArr)
     const token = localStorage.getItem("jwt");
     const [loading, setLoading] = useState(false);
-
     const [isdeleted, setIsDeleted] = useState(false)
 
+    useEffect(() => {
     const getData = async () => {
         setLoading(true)
         try {
@@ -28,10 +28,8 @@ const Projects = ({ baseUrl }) => {
             console.log(error)
         }
     }
-
-    useEffect(() => {
         getData();
-    }, []);
+    }, [baseUrl, token]);
 
 
     const deleteProject = async (project_id) => {
@@ -45,7 +43,7 @@ const Projects = ({ baseUrl }) => {
                         Authorization: `Bearer ${token}`
                     }
                 }).then((isdeleted) => {
-                    getData()
+                    // getData()
                     setIsDeleted(false)
                     alert(isdeleted.data.message)
                 })
@@ -65,8 +63,8 @@ const Projects = ({ baseUrl }) => {
             {loading ? (
                 <div style={{
                     display: "flex",
-                    // justifyContent: 'center',
-                    // alignItems: "center",
+                    justifyContent: 'center',
+                    alignItems: "center",
                     margin: "100px auto"
                 }}>
                     <Spinner
@@ -103,7 +101,6 @@ const Projects = ({ baseUrl }) => {
                             width: "100%",
                             flexWrap: "wrap"
                         }}>
-
                             {projectsArr.map(project => {
                                 return (
                                     <Card
@@ -160,8 +157,6 @@ const Projects = ({ baseUrl }) => {
                         </div>
                     </CardBody>
                 </Card>
-
-
             )}
 
         </>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 
-const Signup = () => {
+const Signup = ({baseUrl}) => {
 
     const [userData, setUserData] = useState({});
     const navigate = useNavigate()
@@ -13,7 +13,8 @@ const Signup = () => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+
     }
     return (
         <>

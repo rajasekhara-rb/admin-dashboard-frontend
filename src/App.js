@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Projects from './components/projects/projects.js';
+// import Projects from './components/projects/projects.js';
 // import Dashboard from './components/dashboard/Dashboard';
 import Navbar from './components/navbar/navbar';
 import CreateProject from './components/projects/createProject';
@@ -18,11 +18,15 @@ import EditEmployee from './components/employees/EditEmployee';
 import EditProject from './components/projects/EditProject';
 import ProjectDashboard from './components/projects/ProjectsDashboard';
 import MainDashboard from './components/dashboard/MainDashboard';
+import Projects from './components/projects/projects';
 
 // import { Toast, ToastBody, ToastHeader } from "reactstrap";
 
 function App() {
-  const baseUrl = "http://localhost:9020";
+  // const baseUrl = "http://localhost:9020";
+  const baseUrl = "https://admin-dashboard-for-it-company-api.onrender.com";
+
+
   // const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("jwt"));
   const userlocal = JSON.parse(localStorage.getItem("user"));
@@ -63,10 +67,10 @@ function App() {
         </div> */}
         <div style={{ width: "100vw", height: "85vh", overflow: "hidden" }}>
           <Routes>
-            <Route path='/signup' element={<Signup />} />
+            <Route path='/signup' element={<Signup baseUrl={baseUrl} />} />
             <Route path='/signin' element={<Signin isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl} userdetails={userdetails} setUserDetails={setUserDetails} />} />
             {/* <Route path='/' element={<Dashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} /> */}
-            <Route path='/' element={<MainDashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl}/>} />
+            <Route path='/' element={<MainDashboard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} baseUrl={baseUrl} />} />
             <Route path='/projects' element={<ProjectsPage />}>
               <Route path='' element={<ProjectDashboard baseUrl={baseUrl} />} />
               <Route path='myprojects' element={<Projects baseUrl={baseUrl} />} />
