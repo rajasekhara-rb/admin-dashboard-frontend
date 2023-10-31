@@ -101,6 +101,7 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
                     // setMonthlySales(data.data)
                     setSalesLables([])
                     setSalesAmount([])
+                    // eslint-disable-next-line
                     data.data.map((sales) => {
                         if (selectedSales === "daily") {
                             setSalesLables(current => [...current, `${sales._id.day}-${sales._id.month}-${sales._id.year}`])

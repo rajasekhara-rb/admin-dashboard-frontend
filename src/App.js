@@ -18,7 +18,7 @@ import EditEmployee from './components/employees/EditEmployee';
 import EditProject from './components/projects/EditProject';
 import ProjectDashboard from './components/projects/ProjectsDashboard';
 import MainDashboard from './components/dashboard/MainDashboard';
-import Projects from './components/projects/projects';
+import Projects from './components/projects/projects.js';
 
 // import { Toast, ToastBody, ToastHeader } from "reactstrap";
 
