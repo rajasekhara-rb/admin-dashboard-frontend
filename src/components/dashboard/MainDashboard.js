@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, FormGroup, Input, InputGroup, Label } from "reactstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { Badge, Card, CardBody, CardHeader, CardTitle, FormGroup, Input, Label, ListGroup, ListGroupItem } from "reactstrap";
 import PieChart from "../charts/pieChart";
 import SalesChart from "../charts/salesChart";
 import PaymentsTable from "../projects/paymentsTable";
@@ -23,12 +23,15 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
 
     const [projects, setProjects] = useState([])
     // console.log(projects)
-    const [projectStatusLables, setProjectStatusLables] = useState([])
-    console.log(projectStatusLables)
-    const [projectStatusCounts, setProjectStatusCount] = useState([])
-    console.log(projectStatusCounts)
+    // const [projectStatusLables, setProjectStatusLables] = useState([])
+    // console.log(projectStatusLables)
+    // const [projectStatusCounts, setProjectStatusCount] = useState([])
+    // console.log(projectStatusCounts)
 
-    const [employees, setEmployees] = useState([])
+    const [employees, setEmployees] = useState([]);
+    // console.log(employees)
+    // const [projectWithUnassignedEmployee, setProjectWithUnassignedEmployee] = useState([]);
+    // console.log(projectWithUnassignedEmployee);
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -38,91 +41,90 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
         }
     }, [isLoggedIn, navigate])
 
-    const getProjects = async () => {
-        try {
-            await axios.get(`${baseUrl}/projects/`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then((resp) => {
-                // setLoading(false)
-                setProjects(resp.data)
-                // const ontrack = 0;
-                resp.data.map((prj) => {
-                    if (prj.projectStatus === "On Track") {
-                        setProjectStatusLables([])
-                        setProjectStatusLables(current => [...current, "On Track"])
-                        // ontrack++
-                        setProjectStatusCount(current => [...current, current + 1])
-                    }
-                })
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     useEffect(() => {
-        getProjects()
-    }, [])
-
-
-    const getEmployeesData = async () => {
-        try {
-            await axios.get(`${baseUrl}/employees`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                }
-            }).then((resp) => {
-                setEmployees(resp.data)
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(() => {
-        getEmployeesData()
-    }, [])
-
-
-    const getSales = async () => {
-        // e.preventDefault()
-        // console.log(selectedSales)
-        try {
-            await axios.get(`${baseUrl}/sales/${selectedSales}`, {
-                headers: {
-                    Authorization: "Bearer " + token
-                }
-            }).then((data) => {
-                // setMonthlySales(data.data)
-                setSalesLables([])
-                setSalesAmount([])
-                data.data.map((sales) => {
-                    if (selectedSales === "daily") {
-                        setSalesLables(current => [...current, `${sales._id.day}-${sales._id.month}-${sales._id.year}`])
-                        setSalesAmount(current => [...current, sales.amount])
-                    } else if (selectedSales === "monthly") {
-                        setSalesLables(current => [...current, `${sales._id.month}-${sales._id.year}`])
-                        setSalesAmount(current => [...current, sales.amount])
-                    } else if (selectedSales === "yearly") {
-                        setSalesLables(current => [...current, `${sales._id.year}`])
-                        setSalesAmount(current => [...current, sales.amount])
-                    } else {
-                        alert("error in sales details fetching")
+        const getProjects = async () => {
+            try {
+                await axios.get(`${baseUrl}/projects/`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
                     }
+                }).then((resp) => {
+                    // setLoading(false)
+                    setProjects(resp.data)
+                    // const ontrack = 0;
+                    // resp.data.map((prj) => {
+                    // if (prj.projectStatus === "On Track") {
+                    //     setProjectStatusLables([])
+                    //     setProjectStatusLables(current => [...current, "On Track"])
+                    //     // ontrack++
+                    //     setProjectStatusCount(current => [...current, current + 1])
+                    // }
+                    // })
                 })
-            }).catch((error) => {
+            } catch (error) {
                 console.log(error)
-            })
-        } catch (error) {
-            console.log(error)
+            }
         }
-    }
+        getProjects()
+    }, [baseUrl, token])
+
     useEffect(() => {
+        const getEmployeesData = async () => {
+            try {
+                await axios.get(`${baseUrl}/employees`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then((resp) => {
+                    setEmployees(resp.data)
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+
+        getEmployeesData()
+    }, [baseUrl, token])
+
+    useEffect(() => {
+        const getSales = async () => {
+            // e.preventDefault()
+            // console.log(selectedSales)
+            try {
+                await axios.get(`${baseUrl}/sales/${selectedSales}`, {
+                    headers: {
+                        Authorization: "Bearer " + token
+                    }
+                }).then((data) => {
+                    // setMonthlySales(data.data)
+                    setSalesLables([])
+                    setSalesAmount([])
+                    data.data.map((sales) => {
+                        if (selectedSales === "daily") {
+                            setSalesLables(current => [...current, `${sales._id.day}-${sales._id.month}-${sales._id.year}`])
+                            setSalesAmount(current => [...current, sales.amount])
+                        } else if (selectedSales === "monthly") {
+                            setSalesLables(current => [...current, `${sales._id.month}-${sales._id.year}`])
+                            setSalesAmount(current => [...current, sales.amount])
+                        } else if (selectedSales === "yearly") {
+                            setSalesLables(current => [...current, `${sales._id.year}`])
+                            setSalesAmount(current => [...current, sales.amount])
+                        } else {
+                            alert("error in sales details fetching")
+                        }
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         getSales()
-    }, [0])
+    }, [baseUrl, token, selectedSales])
 
     const handleSalesChartChange = (e) => {
         // console.log(selectedSales)
@@ -226,14 +228,35 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
                             <PieChart />
                         </CardBody>
                     </Card>
-
-
                     <Card >
                         <CardHeader>
-                            project with unassigned employee
+                            Project Wise Employees
                         </CardHeader>
-                        <CardBody>
-                            chart
+                        <CardBody style={{ overflowY: "scroll" }}>
+                            {/* chart */}
+
+                            <ListGroup>
+                                {
+                                    projects?.map((p) => {
+                                        return (
+                                            <Link to={`/projects/view/${p._id}`} style={{ textDecoration: "none" }}>
+                                                <ListGroupItem className="justify-content-between" key={p._id}>
+                                                    {p.projectName}{' '}{' '}
+                                                    <Badge pill>
+                                                        {p.assignedEmployees.length}
+                                                    </Badge>
+                                                </ListGroupItem>
+                                            </Link>
+                                        )
+
+                                        // if (p.assignedEmployees.length <= 0) {
+                                        // setProjectWithUnassignedEmployee(p)
+                                        // return (<p>{p.projectName}</p>)
+                                        // }
+                                    })
+                                }
+                            </ListGroup>
+
                         </CardBody>
                     </Card>
                 </CardBody>
@@ -287,9 +310,10 @@ const MainDashboard = ({ isLoggedIn, baseUrl }) => {
                                             Yearly
                                         </option>
                                     </Input>
-                                    <Button
+                                    {/* <Button
 
-                                        onClick={() => { getSales() }}>Go</Button>
+                                        onClick={() => { getSales() }}>Go
+                                    </Button> */}
                                 </div>
                             </FormGroup>
                         </CardHeader>

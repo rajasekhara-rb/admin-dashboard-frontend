@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Card, CardBody, CardHeader, FormGroup, Input, Label } from "reactstrap";
+import { Card, CardBody, CardHeader, FormGroup, Input, Label } from "reactstrap";
 // import PaymentsTable from "./paymentsTable";
 import SalesChart from "../charts/salesChart";
 
 const ProjectDashboard = ({ baseUrl }) => {
     const token = localStorage.getItem("jwt");
     const [projects, setProjects] = useState([]);
+    // console.log(projects);
     const [projectById, setProjectById] = useState({});
     const [projectId, setProjectId] = useState();
     // console.log(projectId);
@@ -37,9 +38,9 @@ const ProjectDashboard = ({ baseUrl }) => {
             }
         }
 
-        getProjects()
+        getProjects();
     }, [baseUrl, token])
-
+    
     useEffect(() => {
         const getProjectById = async () => {
             const url = `${baseUrl}/projects/${projectId}`;
@@ -56,9 +57,10 @@ const ProjectDashboard = ({ baseUrl }) => {
                     // setProjectId(res.data._id)
                     // alert(data.data)
                     // statusColorDefine(data.data.projectStatus)
-                }).catch((error) => {
-                    console.log(error)
                 })
+                // .catch((error) => {
+                //     console.log(error)
+                // })
             } catch (error) {
                 console.log(error)
             }
@@ -66,8 +68,12 @@ const ProjectDashboard = ({ baseUrl }) => {
         getProjectById();
     }, [baseUrl, projectId, token]);
 
+    useEffect(()=>{
+        setProjectId(projects[0]?._id);
+    },[projects]);
 
 
+    useEffect(() => {
     const getSales = async () => {
         // e.preventDefault()
         try {
@@ -94,15 +100,15 @@ const ProjectDashboard = ({ baseUrl }) => {
                         alert("error in sales details fetching")
                     }
                 })
-            }).catch((error) => {
-                console.log(error)
             })
+            // .catch((error) => {
+            //     console.log(error)
+            // })
         } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(() => {
         getSales();
         // getProjectById();
     }, [baseUrl, selectedSales, projectId, token])
@@ -186,11 +192,11 @@ const ProjectDashboard = ({ baseUrl }) => {
                                             Yearly
                                         </option>
                                     </Input>
-                                    <Button
+                                    {/* <Button
 
-                                    // onClick={() => { getSales() }}
+                                    onClick={() => { getSales() }}
                                     >
-                                        Go</Button>
+                                        Go</Button> */}
                                 </div>
                             </FormGroup>
                         </CardHeader>
