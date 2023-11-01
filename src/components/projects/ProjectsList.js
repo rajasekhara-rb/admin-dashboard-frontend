@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Button, Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Spinner } from "reactstrap";
 
-const Projects = ({ baseUrl }) => {
+const ProjectsList = ({ baseUrl }) => {
 
     const [projectsArr, setProjectsArr] = useState([]);
     const [projectId, setProjectId] = useState()
@@ -162,4 +162,4 @@ const Projects = ({ baseUrl }) => {
         </>
     )
 }
-export default Projects;
+export default ProjectsList;
