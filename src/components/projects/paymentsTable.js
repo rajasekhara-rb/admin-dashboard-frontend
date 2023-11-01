@@ -7,6 +7,7 @@ const PaymentsTable = ({ payments }) => {
     // const [amt, setAmt] = useState([])
 
     const totalamount = []
+    // eslint-disable-next-line
     payments?.map((pay) => {
         totalamount.push(pay.amount)
         // setAmt()
