@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Input } from "reactstrap";
+import { Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle } from "reactstrap";
 
 const EmployeeById = ({ baseUrl }) => {
     const [employeeData, setEmployeeData] = useState({})
@@ -9,6 +9,7 @@ const EmployeeById = ({ baseUrl }) => {
     const { id } = useParams()
     const navigate = useNavigate()
     // console.log(id)
+    useEffect(() => {
     const getEmployeeData = async () => {
         await axios.get(`${baseUrl}/employees/${id}`, {
             headers: {
@@ -19,9 +20,9 @@ const EmployeeById = ({ baseUrl }) => {
             setEmployeeData(employee.data)
         })
     }
-    useEffect(() => {
+ 
         getEmployeeData()
-    }, [])
+    }, [baseUrl, id])
 
     const deleteEmployee = async () => {
         try {

@@ -12,28 +12,28 @@ const AssignEmployees = ({ baseUrl, id }) => {
 
     const [newAssignedEmployees, setNewAssignedEmployees] = useState()
 
-
-    const getAssignedEmployesByProjectId = async () => {
-        try {
-
-            await axios.get(`${baseUrl}/employees/projectId/${id}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                }
-            })
-                .then((resp) => {
-                    setProjectEmployees(resp.data)
-                }).catch((error) => {
-                    console.log(error)
-                })
-        } catch (error) {
-            console.log(error)
-        }
-    }
     useEffect(() => {
+        const getAssignedEmployesByProjectId = async () => {
+            try {
+
+                await axios.get(`${baseUrl}/employees/projectId/${id}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                    .then((resp) => {
+                        setProjectEmployees(resp.data)
+                    }).catch((error) => {
+                        console.log(error)
+                    })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         getAssignedEmployesByProjectId()
-    }, [])
+    }, [baseUrl, id, token])
 
     useEffect(() => {
         const getEmployeesData = async () => {
@@ -69,7 +69,7 @@ const AssignEmployees = ({ baseUrl, id }) => {
                     }
                 }).then(() => {
                     setAssignEmployeesAction(false)
-                    getAssignedEmployesByProjectId()
+                    // getAssignedEmployesByProjectId()
                 })
         } catch (error) {
             console.log(error)

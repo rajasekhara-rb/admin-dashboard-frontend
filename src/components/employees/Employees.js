@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Badge, Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle, Spinner } from "reactstrap";
+import { Badge, Button, Card, CardBody, CardFooter, CardHeader, CardSubtitle, CardText, CardTitle } from "reactstrap";
 
 const Employees = ({ baseUrl }) => {
     const navigate = useNavigate()
@@ -25,7 +25,7 @@ const Employees = ({ baseUrl }) => {
 
     useEffect(() => {
         getEmployeesData()
-    }, [])
+    })
 
 
     const deleteEmployee = async (id) => {

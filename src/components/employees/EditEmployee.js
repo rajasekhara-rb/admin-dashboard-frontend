@@ -13,20 +13,21 @@ const EditEmployee = ({ baseUrl }) => {
     console.log(employeeData)
     const { id } = useParams()
     // console.log(id)
-    const getEmployeeData = async () => {
-        await axios.get(`${baseUrl}/employees/${id}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Brarer " + localStorage.getItem("jwt")
-            }
-        }).then((employee) => {
-            setEmployeeData(employee.data)
-            // navigate("/employees/employees")
-        })
-    }
     useEffect(() => {
+        const getEmployeeData = async () => {
+            await axios.get(`${baseUrl}/employees/${id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Brarer " + localStorage.getItem("jwt")
+                }
+            }).then((employee) => {
+                setEmployeeData(employee.data)
+                // navigate("/employees/employees")
+            })
+        }
+
         getEmployeeData()
-    }, [0])
+    }, [baseUrl, id])
 
     const handleChange = (e) => {
         setEmployeeData({})
@@ -61,14 +62,14 @@ const EditEmployee = ({ baseUrl }) => {
         }
     }
 
-    const handleDisplay = (val) => {
-        if (employeeData.val) {
-            return employeeData.val
-        } else {
-            return employeeData.val
-        }
-        // newEmplooyeeData ? (newEmplooyeeData.val) : (employeeData.val)
-    }
+    // const handleDisplay = (val) => {
+    //     if (employeeData.val) {
+    //         return employeeData.val
+    //     } else {
+    //         return employeeData.val
+    //     }
+    //     // newEmplooyeeData ? (newEmplooyeeData.val) : (employeeData.val)
+    // }
     return (
         <>
             <Card

@@ -110,7 +110,7 @@ const ProjectById = ({ baseUrl }) => {
             }
         }
         getPayments()
-    }, [baseUrl, token])
+    }, [baseUrl, token, id])
     return (
         <>
             <div

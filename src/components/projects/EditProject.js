@@ -12,8 +12,9 @@ const EditProject = ({ baseUrl }) => {
     const [project, setProject] = useState({})
     // const [employees, setEmployees] = useState([])
     // console.log(employees)
-    console.log(project)
+    // console.log(project)
 
+    useEffect(() => {
     const getProjectById = async () => {
         const url = `${baseUrl}/projects/${id}`;
         // console.log(token)
@@ -34,11 +35,8 @@ const EditProject = ({ baseUrl }) => {
             console.log(error)
         }
     }
-
-    useEffect(() => {
-
         getProjectById()
-    }, [])
+    }, [baseUrl, id, token])
 
 
     const handleChange = (e) => {
